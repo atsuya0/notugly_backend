@@ -1,0 +1,17 @@
+{
+  "backend": {
+    "port": "9000"
+  },
+  "frontend": {
+    "host": "localhost",
+    "port": "8080"
+  },
+  "database": {
+    "name": "test_db",
+    "user": "test_user",
+    "password": "test_password",
+    "host": "127.0.0.1",
+    "port": "3306"
+  }
+}
+
