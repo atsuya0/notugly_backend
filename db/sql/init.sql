@@ -19,12 +19,11 @@ CREATE TABLE `coordinates` (
 );
 
 CREATE TABLE `favorites` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY UNIQUE NOT NULL,
-  `flag` BIT(1) NOT NULL DEFAULT b'0',
   `coordinate_id` INT NOT NULL,
   FOREIGN KEY(`coordinate_id`) REFERENCES coordinates(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   `user_id` VARCHAR(32) NOT NULL,
-  FOREIGN KEY(`user_id`) REFERENCES users(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY(`user_id`) REFERENCES users(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY(`coordinate_id`, `user_id`)
 );
 
 insert into `users` (`id`, `name`, `sex`, `age`) values
