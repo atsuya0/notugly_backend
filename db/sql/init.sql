@@ -6,7 +6,7 @@ CHARSET utf8mb4;
 CREATE TABLE `users` (
   `id` VARCHAR(32) PRIMARY KEY UNIQUE NOT NULL,
   `name` VARCHAR(32) NOT NULL,
-  `gender` TINYINT(1) UNSIGNED NOT NULL,
+  `sex` BIT(1) NOT NULL,
   `age` TINYINT(1) UNSIGNED NOT NULL
 );
 
@@ -27,8 +27,6 @@ CREATE TABLE `favorites` (
   FOREIGN KEY(`user_id`) REFERENCES users(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- user
-insert into `users` (`id`, `name`, `gender`, `age`) values
-  ('tQKMbEoRLicSYF0QhfTQaDIpz2e2', 'コード001', `0`, `22`);
-insert into `users` (`id`, `name`, `gender`, `age`) values
-  ('QHvLBq764VYfpBBUFp0wstryG833', 'コード002', `1`, `32`);
+insert into `users` (`id`, `name`, `sex`, `age`) values
+  ('tQKMbEoRLicSYF0QhfTQaDIpz2e2', 'コード001', 0, 22),
+  ('QHvLBq764VYfpBBUFp0wstryG833', 'コード002', 1, 32);
