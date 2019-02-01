@@ -29,3 +29,9 @@ CREATE TABLE `favorites` (
 insert into `users` (`id`, `name`, `sex`, `age`) values
   ('tQKMbEoRLicSYF0QhfTQaDIpz2e2', 'コード001', 0, 22),
   ('QHvLBq764VYfpBBUFp0wstryG833', 'コード002', 1, 32);
+
+insert into `coordinates` (`id`, `image`, `user_id`, `created_at`) values
+  (1001, 'woman1.jpg', 'tQKMbEoRLicSYF0QhfTQaDIpz2e2', '2019-01-20 09:27:30'),
+  (1002, 'woman2.jpg', 'tQKMbEoRLicSYF0QhfTQaDIpz2e2', '2019-01-21 09:27:30'),
+  (1003, 'man1.jpg', 'QHvLBq764VYfpBBUFp0wstryG833', '2019-01-20 09:27:30'),
+  (1004, 'man2.jpg', 'QHvLBq764VYfpBBUFp0wstryG833', '2019-01-21 09:27:30');
