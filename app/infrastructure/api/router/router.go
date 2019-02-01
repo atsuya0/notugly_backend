@@ -45,6 +45,7 @@ func NewRouter(handler handler.AppHandler) *httprouter.Router {
 	router.DELETE("/favorites", middleware.SetHeader(handler.DeleteFavorite))
 
 	router.OPTIONS("/*path", handlePreFlight)
+	router.ServeFiles("/images/*filepath", http.Dir("images"))
 
 	return router
 }
