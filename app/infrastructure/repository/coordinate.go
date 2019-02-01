@@ -37,6 +37,29 @@ func (c *coordinateRepository) FindById(
 	return coordinate, nil
 }
 
+func (c *coordinateRepository) GetRandom() (domain.Coordinate, error) {
+	var coordinate domain.Coordinate
+	var createdAt time.Time
+
+	// SELECT id ... RAND() ... AS rand -> SELECT * ... where id = rand.id
+	err := c.conn.QueryRow(
+		`SELECT id, image, created_at, count(id)
+			FROM coordinates LEFT OUTER JOIN favorites
+				ON coordinates.id = favorites.coordinate_id
+			GROUP BY id ORDER BY RAND() LIMIT 0, 1`).Scan(
+		&coordinate.Id,
+		&coordinate.Image,
+		&createdAt,
+		&coordinate.Favorites)
+	if err != nil {
+		return domain.Coordinate{}, err
+	}
+
+	coordinate.CreatedAt = domain.JsonTime{Data: createdAt}
+
+	return coordinate, nil
+}
+
 func (c *coordinateRepository) FindByUserId(
 	uid string) ([]domain.Coordinate, error) {
 
