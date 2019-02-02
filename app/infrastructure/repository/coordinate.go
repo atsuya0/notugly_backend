@@ -19,13 +19,14 @@ func (c *coordinateRepository) FindById(
 	var createdAt time.Time
 
 	err := c.conn.QueryRow(
-		`SELECT id, image, created_at, count(id)
+		`SELECT id, image, coordinates.user_id, created_at, count(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			WHERE coordinates.id = ?
 			GROUP BY id`, coordinateId).Scan(
 		&coordinate.Id,
 		&coordinate.Image,
+		&coordinate.UserId,
 		&createdAt,
 		&coordinate.Favorites)
 	if err != nil {
@@ -43,12 +44,13 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 
 	// SELECT id ... RAND() ... AS rand -> SELECT * ... where id = rand.id
 	err := c.conn.QueryRow(
-		`SELECT id, image, created_at, count(id)
+		`SELECT id, image, coordinates.user_id, created_at, count(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			GROUP BY id ORDER BY RAND() LIMIT 0, 1`).Scan(
 		&coordinate.Id,
 		&coordinate.Image,
+		&coordinate.UserId,
 		&createdAt,
 		&coordinate.Favorites)
 	if err != nil {
@@ -85,7 +87,7 @@ func (c *coordinateRepository) FindByUserId(
 	uid string) ([]domain.Coordinate, error) {
 
 	rows, err := c.conn.Query(
-		`SELECT id, image, created_at, count(id)
+		`SELECT id, image, coordinates.user_id, created_at, count(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			WHERE coordinates.user_id = ?
@@ -107,6 +109,7 @@ func (c *coordinateRepository) FindByUserId(
 		err = rows.Scan(
 			&coordinate.Id,
 			&coordinate.Image,
+			&coordinate.UserId,
 			&createdAt,
 			&coordinate.Favorites)
 		if err != nil {
