@@ -10,6 +10,10 @@ import (
 	"github.com/tayusa/notugly_backend/app/registry"
 )
 
+func init() {
+	log.SetFlags(log.Ltime | log.Llongfile)
+}
+
 func main() {
 	config.LoadConfig()
 
