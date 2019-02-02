@@ -27,11 +27,21 @@ CREATE TABLE `favorites` (
 );
 
 insert into `users` (`id`, `name`, `sex`, `age`) values
-  ('tQKMbEoRLicSYF0QhfTQaDIpz2e2', 'コード001', 0, 22),
-  ('QHvLBq764VYfpBBUFp0wstryG833', 'コード002', 1, 32);
+  ('nJSrATmQ2GVD7yKZ2lP1RN86Oin1', 'コード000', 1, 49),
+  ('a1', 'コード001', 0, 22),
+  ('a2', 'コード002', 1, 40),
+  ('a3', 'コード003', 1, 32);
 
 insert into `coordinates` (`id`, `image`, `user_id`, `created_at`) values
-  (1001, 'woman1.jpg', 'tQKMbEoRLicSYF0QhfTQaDIpz2e2', '2019-01-20 09:27:30'),
-  (1002, 'woman2.jpg', 'tQKMbEoRLicSYF0QhfTQaDIpz2e2', '2019-01-21 09:27:30'),
-  (1003, 'man1.jpg', 'QHvLBq764VYfpBBUFp0wstryG833', '2019-01-20 09:27:30'),
-  (1004, 'man2.jpg', 'QHvLBq764VYfpBBUFp0wstryG833', '2019-01-21 09:27:30');
+  (1001, 'woman1.jpg', 'a1', '2019-01-20 09:27:30'),
+  (1002, 'woman2.jpg', 'a1', '2019-01-21 09:27:30'),
+  (1003, 'man1.jpg', 'a2', '2019-01-20 09:27:30'),
+  (1004, 'man2.jpg', 'a2', '2019-01-21 09:27:30');
+
+insert into `favorites` (`coordinate_id`, `user_id`) values
+  (1001, 'nJSrATmQ2GVD7yKZ2lP1RN86Oin1'),
+  (1001, 'a2'),
+  (1001, 'a3'),
+  (1002, 'a2'),
+  (1002, 'a3'),
+  (1003, 'a2');
