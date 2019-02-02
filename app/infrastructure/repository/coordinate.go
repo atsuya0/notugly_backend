@@ -37,7 +37,7 @@ func (c *coordinateRepository) FindById(
 	return coordinate, nil
 }
 
-func (c *coordinateRepository) GetRandom() (domain.Coordinate, error) {
+func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	var coordinate domain.Coordinate
 	var createdAt time.Time
 
