@@ -14,6 +14,7 @@ type coordinateController struct {
 
 type CoordinateController interface {
 	Get(string) ([]byte, error)
+	GetAtRandom(string) ([]byte, error)
 	GetByUserId(string) ([]byte, error)
 	Create(string, []byte) ([]byte, error)
 	Delete([]byte) error
@@ -26,6 +27,14 @@ func (c *coordinateController) Get(coordinateId string) ([]byte, error) {
 	}
 
 	coordinate, err := c.coordinateService.Get(id)
+	if err != nil {
+		return []byte{}, err
+	}
+	return coordinate, nil
+}
+
+func (c *coordinateController) GetAtRandom(uid string) ([]byte, error) {
+	coordinate, err := c.coordinateService.GetAtRandom(uid)
 	if err != nil {
 		return []byte{}, err
 	}

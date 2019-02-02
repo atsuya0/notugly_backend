@@ -15,6 +15,7 @@ type coordinateHandler struct {
 
 type CoordinateHandler interface {
 	GetCoordinate(http.ResponseWriter, *http.Request, httprouter.Params)
+	GetCoordinateAtRandom(http.ResponseWriter, *http.Request, httprouter.Params)
 	GetCoordinates(http.ResponseWriter, *http.Request, httprouter.Params)
 	PostCoordinate(http.ResponseWriter, *http.Request, httprouter.Params)
 	DeleteCoordinate(http.ResponseWriter, *http.Request, httprouter.Params)
@@ -24,6 +25,27 @@ func (c *coordinateHandler) GetCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	coordinate, err := c.CoordinateController.Get(p.ByName("coordinateId"))
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Write(coordinate)
+
+	return
+}
+
+func (c *coordinateHandler) GetCoordinateAtRandom(
+	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	token, err := firebase.FetchToken(r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	coordinate, err := c.CoordinateController.GetAtRandom(token.UID)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

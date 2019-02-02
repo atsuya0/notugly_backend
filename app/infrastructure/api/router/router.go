@@ -33,6 +33,8 @@ func NewRouter(handler handler.AppHandler) *httprouter.Router {
 	// coordinate
 	router.GET("/coordinates/:coordinateId",
 		middleware.SetHeader(middleware.Auth(handler.GetCoordinate)))
+	router.GET("/coordinate",
+		middleware.SetHeader(handler.GetCoordinateAtRandom))
 	router.GET("/users/:uid/coordinates",
 		middleware.SetHeader(middleware.Auth(handler.GetCoordinates)))
 	router.POST("/coordinates",
