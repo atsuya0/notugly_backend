@@ -62,25 +62,21 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	return coordinate, nil
 }
 
-func (c *coordinateRepository) IsFavorite(
-	coordinateId int, uid string) (bool, error) {
+func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
+	coordinateId int, uid string) (domain.Favorite, error) {
 
 	var favorite domain.Favorite
 	err := c.db.QueryRow(
-		`SELECT coordinate_id FROM favorites
+		`SELECT coordinate_id, user_id FROM favorites
 			WHERE coordinate_id = ? AND user_id = ?`,
 		coordinateId, uid).Scan(
-		&favorite.CoordinateId)
+		&favorite.CoordinateId,
+		&favorite.UserId)
 	if err != nil {
-		switch err {
-		case sql.ErrNoRows:
-			return false, nil
-		default:
-			return false, err
-		}
+		return domain.Favorite{}, err
 	}
 
-	return true, nil
+	return favorite, nil
 }
 
 func (c *coordinateRepository) FindByUserId(

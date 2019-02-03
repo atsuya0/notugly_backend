@@ -16,6 +16,7 @@ type coordinateService struct {
 type CoordinateService interface {
 	Get(int) ([]byte, error)
 	GetAtRandom(string) ([]byte, error)
+	IsFavorite(int, string) (bool, error)
 	GetByUserId(string) ([]byte, error)
 	Create(domain.Coordinate) ([]byte, error)
 	Delete(int) error
@@ -46,7 +47,7 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 		}
 	}
 
-	isFavorited, err := c.CoordinateRepository.IsFavorite(coordinate.Id, uid)
+	isFavorited, err := c.IsFavorite(coordinate.Id, uid)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -58,6 +59,23 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 	}
 
 	return output, nil
+}
+
+func (c *coordinateService) IsFavorite(
+	coordinateId int, uid string) (bool, error) {
+
+	_, err := c.CoordinateRepository.
+		FindFavoriteByCoordinateIdAndUserId(coordinateId, uid)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+
+	return true, nil
 }
 
 func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
