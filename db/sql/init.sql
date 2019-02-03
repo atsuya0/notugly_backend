@@ -12,7 +12,7 @@ CREATE TABLE `users` (
 
 CREATE TABLE `coordinates` (
   `id` INT AUTO_INCREMENT PRIMARY KEY UNIQUE NOT NULL,
-  `image` VARCHAR(32) UNIQUE NOT NULL,
+  `image_name` VARCHAR(32) UNIQUE NOT NULL,
   `user_id` VARCHAR(32) NOT NULL,
   FOREIGN KEY(`user_id`) REFERENCES users(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   `created_at` TIMESTAMP NOT NULL
@@ -32,7 +32,7 @@ insert into `users` (`id`, `name`, `sex`, `age`) values
   ('a2', 'コード002', 1, 40),
   ('a3', 'コード003', 1, 32);
 
-insert into `coordinates` (`id`, `image`, `user_id`, `created_at`) values
+insert into `coordinates` (`id`, `image_name`, `user_id`, `created_at`) values
   (1001, 'woman1.jpg', 'a1', '2019-01-20 09:27:30'),
   (1002, 'woman2.jpg', 'a1', '2019-01-21 09:27:30'),
   (1003, 'man1.jpg', 'a2', '2019-01-20 09:27:30'),

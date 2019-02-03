@@ -2,7 +2,7 @@ package domain
 
 type Coordinate struct {
 	Id          int      `json:"id"`
-	Image       string   `json:"image"`
+	ImageName   string   `json:"imageName"`
 	UserId      string   `json:"userId"`
 	CreatedAt   JsonTime `json:"createdAt"`
 	Favorites   int      `json:"favorites"`

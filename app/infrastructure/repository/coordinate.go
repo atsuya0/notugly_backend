@@ -19,13 +19,14 @@ func (c *coordinateRepository) FindById(
 	var createdAt time.Time
 
 	err := c.db.QueryRow(
-		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
+		`SELECT
+			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			WHERE coordinates.id = ?
 			GROUP BY id`, coordinateId).Scan(
 		&coordinate.Id,
-		&coordinate.Image,
+		&coordinate.ImageName,
 		&coordinate.UserId,
 		&createdAt,
 		&coordinate.Favorites)
@@ -44,12 +45,13 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 
 	// SELECT id ... RAND() ... AS rand -> SELECT * ... where id = rand.id
 	err := c.db.QueryRow(
-		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
+		`SELECT
+			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			GROUP BY id ORDER BY RAND() LIMIT 0, 1`).Scan(
 		&coordinate.Id,
-		&coordinate.Image,
+		&coordinate.ImageName,
 		&coordinate.UserId,
 		&createdAt,
 		&coordinate.Favorites)
@@ -83,7 +85,8 @@ func (c *coordinateRepository) FindByUserId(
 	uid string) ([]domain.Coordinate, error) {
 
 	rows, err := c.db.Query(
-		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
+		`SELECT
+			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
 			WHERE coordinates.user_id = ?
@@ -104,7 +107,7 @@ func (c *coordinateRepository) FindByUserId(
 	for rows.Next() {
 		err = rows.Scan(
 			&coordinate.Id,
-			&coordinate.Image,
+			&coordinate.ImageName,
 			&coordinate.UserId,
 			&createdAt,
 			&coordinate.Favorites)
@@ -122,8 +125,12 @@ func (c *coordinateRepository) Store(
 	coordinate domain.Coordinate) (int64, error) {
 
 	result, err := c.db.Exec(
-		"INSERT INTO coordinates(id, image, user_id, created_at) VALUES(?, ?, ?, ?)",
-		coordinate.Id, coordinate.Image, coordinate.UserId, coordinate.CreatedAt.Data)
+		`INSERT INTO coordinates(id, image_name, user_id, created_at)
+			VALUES(?, ?, ?, ?)`,
+		coordinate.Id,
+		coordinate.ImageName,
+		coordinate.UserId,
+		coordinate.CreatedAt.Data)
 	if err != nil {
 		return -1, err
 	}
