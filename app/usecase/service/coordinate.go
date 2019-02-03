@@ -39,8 +39,7 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 		return []byte{}, err
 	}
 
-	isFavorited, err := c.CoordinateRepository.
-		FindByCoordinateIdAndUserId(coordinate.Id, uid)
+	isFavorited, err := c.CoordinateRepository.IsFavorite(coordinate.Id, uid)
 	if err != nil {
 		return []byte{}, err
 	}

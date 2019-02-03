@@ -62,7 +62,7 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	return coordinate, nil
 }
 
-func (c *coordinateRepository) FindByCoordinateIdAndUserId(
+func (c *coordinateRepository) IsFavorite(
 	coordinateId int, uid string) (bool, error) {
 
 	var favorite domain.Favorite
