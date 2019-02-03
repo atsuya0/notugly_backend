@@ -19,7 +19,7 @@ func (f *favoriteRepository) Store(favorite domain.Favorite) (err error) {
 
 func (f *favoriteRepository) Delete(favorite domain.Favorite) (err error) {
 	_, err = f.db.Exec(
-		"DELETE FROM favorite WHERE coordinate_id = ? and user_id = ?",
+		"DELETE FROM favorites WHERE coordinate_id = ? AND user_id = ?",
 		favorite.CoordinateId, favorite.UserId)
 	return
 }
