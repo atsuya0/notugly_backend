@@ -1,6 +1,8 @@
 package service
 
 import (
+	"database/sql"
+
 	"github.com/tayusa/notugly_backend/app/domain"
 	"github.com/tayusa/notugly_backend/app/usecase/presenter"
 	"github.com/tayusa/notugly_backend/app/usecase/repository"
@@ -36,7 +38,12 @@ func (c *coordinateService) Get(coordinateId int) ([]byte, error) {
 func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 	coordinate, err := c.CoordinateRepository.GetAtRandom()
 	if err != nil {
-		return []byte{}, err
+		switch err {
+		case sql.ErrNoRows:
+			return []byte{}, nil
+		default:
+			return []byte{}, err
+		}
 	}
 
 	isFavorited, err := c.CoordinateRepository.IsFavorite(coordinate.Id, uid)
@@ -56,7 +63,12 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
 	coordinates, err := c.CoordinateRepository.FindByUserId(uid)
 	if err != nil {
-		return []byte{}, err
+		switch err {
+		case sql.ErrNoRows:
+			return []byte{}, nil
+		default:
+			return []byte{}, err
+		}
 	}
 
 	output, err := c.CoordinatePresenter.ResponseCoordinates(coordinates)
