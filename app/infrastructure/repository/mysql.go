@@ -18,10 +18,10 @@ func NewMySql() *sql.DB {
 		config.Data.DB.Name,
 	)
 
-	conn, err := sql.Open("mysql", dataSourceName)
+	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err)
 	}
 
-	return conn
+	return db
 }

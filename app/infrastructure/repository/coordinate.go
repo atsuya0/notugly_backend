@@ -9,7 +9,7 @@ import (
 )
 
 type coordinateRepository struct {
-	conn *sql.DB
+	db *sql.DB
 }
 
 func (c *coordinateRepository) FindById(
@@ -18,7 +18,7 @@ func (c *coordinateRepository) FindById(
 	var coordinate domain.Coordinate
 	var createdAt time.Time
 
-	err := c.conn.QueryRow(
+	err := c.db.QueryRow(
 		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
@@ -43,7 +43,7 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	var createdAt time.Time
 
 	// SELECT id ... RAND() ... AS rand -> SELECT * ... where id = rand.id
-	err := c.conn.QueryRow(
+	err := c.db.QueryRow(
 		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
@@ -66,7 +66,7 @@ func (c *coordinateRepository) IsFavorite(
 	coordinateId int, uid string) (bool, error) {
 
 	var favorite domain.Favorite
-	err := c.conn.QueryRow(
+	err := c.db.QueryRow(
 		`SELECT coordinate_id FROM favorites
 			WHERE coordinate_id = ? AND user_id = ?`,
 		coordinateId, uid).Scan(
@@ -86,7 +86,7 @@ func (c *coordinateRepository) IsFavorite(
 func (c *coordinateRepository) FindByUserId(
 	uid string) ([]domain.Coordinate, error) {
 
-	rows, err := c.conn.Query(
+	rows, err := c.db.Query(
 		`SELECT id, image, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
 				ON coordinates.id = favorites.coordinate_id
@@ -125,7 +125,7 @@ func (c *coordinateRepository) FindByUserId(
 func (c *coordinateRepository) Store(
 	coordinate domain.Coordinate) (int64, error) {
 
-	result, err := c.conn.Exec(
+	result, err := c.db.Exec(
 		"INSERT INTO coordinates(id, image, user_id, created_at) VALUES(?, ?, ?, ?)",
 		coordinate.Id, coordinate.Image, coordinate.UserId, coordinate.CreatedAt.Data)
 	if err != nil {
@@ -141,11 +141,11 @@ func (c *coordinateRepository) Store(
 }
 
 func (c *coordinateRepository) Delete(coordinateId int) (err error) {
-	_, err = c.conn.Exec(
+	_, err = c.db.Exec(
 		"DELETE FROM coordinates WHERE id = ?", coordinateId)
 	return
 }
 
-func NewCoordinateRepository(conn *sql.DB) *coordinateRepository {
-	return &coordinateRepository{conn}
+func NewCoordinateRepository(db *sql.DB) *coordinateRepository {
+	return &coordinateRepository{db}
 }

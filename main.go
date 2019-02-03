@@ -17,14 +17,14 @@ func init() {
 func main() {
 	config.LoadConfig()
 
-	conn := repository.NewMySql()
+	db := repository.NewMySql()
 	defer func() {
-		if err := conn.Close(); err != nil {
+		if err := db.Close(); err != nil {
 			log.Fatalln(err)
 		}
 	}()
 
-	registry := registry.NewInteractor(conn)
+	registry := registry.NewInteractor(db)
 
 	handler := registry.NewAppHandler()
 

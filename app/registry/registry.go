@@ -13,11 +13,11 @@ import (
 )
 
 type interactor struct {
-	conn *sql.DB
+	db *sql.DB
 }
 
-func NewInteractor(conn *sql.DB) Iteractor {
-	return &interactor{conn}
+func NewInteractor(db *sql.DB) Iteractor {
+	return &interactor{db}
 }
 
 type Iteractor interface {
@@ -43,7 +43,7 @@ func (i *interactor) NewUserService() service.UserService {
 }
 
 func (i *interactor) NewUserRepository() input.UserRepository {
-	return repository.NewUserRepository(i.conn)
+	return repository.NewUserRepository(i.db)
 }
 
 func (i *interactor) NewUserPresenter() output.UserPresenter {
@@ -64,7 +64,7 @@ func (i *interactor) NewCoordinateService() service.CoordinateService {
 }
 
 func (i *interactor) NewCoordinateRepository() input.CoordinateRepository {
-	return repository.NewCoordinateRepository(i.conn)
+	return repository.NewCoordinateRepository(i.db)
 }
 
 func (i *interactor) NewCoordinatePresenter() output.CoordinatePresenter {
@@ -85,5 +85,5 @@ func (i *interactor) NewFavoriteService() service.FavoriteService {
 }
 
 func (i *interactor) NewFavoriteRepository() input.FavoriteRepository {
-	return repository.NewFavoriteRepository(i.conn)
+	return repository.NewFavoriteRepository(i.db)
 }
