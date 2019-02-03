@@ -26,17 +26,17 @@ func NewRouter(handler handler.AppHandler) *httprouter.Router {
 
 	// user
 	router.GET("/users/:uid",
-		middleware.SetHeader(middleware.Auth(handler.GetUser)))
+		middleware.SetHeader(handler.GetUser))
 	router.POST("/users/me", middleware.SetHeader(handler.PostUser))
 	router.PUT("/users/me", middleware.SetHeader(handler.PutUser))
 
 	// coordinate
 	router.GET("/coordinates/:coordinateId",
-		middleware.SetHeader(middleware.Auth(handler.GetCoordinate)))
+		middleware.SetHeader(handler.GetCoordinate))
 	router.GET("/coordinate",
 		middleware.SetHeader(handler.GetCoordinateAtRandom))
 	router.GET("/users/:uid/coordinates",
-		middleware.SetHeader(middleware.Auth(handler.GetCoordinates)))
+		middleware.SetHeader(handler.GetCoordinates))
 	router.POST("/coordinates",
 		middleware.SetHeader(handler.PostCoordinate))
 	router.DELETE("/coordinates",
