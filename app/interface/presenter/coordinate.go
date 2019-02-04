@@ -29,14 +29,6 @@ func (c *coordinatePresenter) ResponseCoordinates(
 	return output, nil
 }
 
-func (c *coordinatePresenter) ResponseId(id int64) ([]byte, error) {
-	output, err := json.Marshal(&id)
-	if err != nil {
-		return []byte{}, err
-	}
-	return output, nil
-}
-
 func NewCoordinatePresenter() *coordinatePresenter {
 	return &coordinatePresenter{}
 }
