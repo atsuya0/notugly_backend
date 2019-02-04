@@ -12,9 +12,17 @@ type userRepository struct {
 
 func (u *userRepository) FindById(uid string) (domain.User, error) {
 	var user domain.User
+	var sex string
 	err := u.db.QueryRow(
 		"SELECT id, name, sex, age FROM users WHERE id = ?", uid).
-		Scan(&user.Id, &user.Name, &user.Sex, &user.Age)
+		Scan(&user.Id, &user.Name, &sex, &user.Age)
+
+	switch sex {
+	case "\x00":
+		user.Sex = 0
+	case "\x01":
+		user.Sex = 1
+	}
 
 	return user, err
 }
