@@ -2,10 +2,13 @@ package service
 
 import (
 	"database/sql"
+	"log"
+	"os"
 
 	"github.com/tayusa/notugly_backend/app/domain"
 	"github.com/tayusa/notugly_backend/app/usecase/presenter"
 	"github.com/tayusa/notugly_backend/app/usecase/repository"
+	"github.com/tayusa/notugly_backend/app/utils/random"
 )
 
 type coordinateService struct {
@@ -18,7 +21,7 @@ type CoordinateService interface {
 	GetAtRandom(string) ([]byte, error)
 	IsFavorite(int, string) (bool, error)
 	GetByUserId(string) ([]byte, error)
-	Create(domain.Coordinate) ([]byte, error)
+	Create(domain.Coordinate, []byte) ([]byte, error)
 	Delete(int) error
 }
 
@@ -97,13 +100,24 @@ func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
 	return output, nil
 }
 
-func (c *coordinateService) Create(coordinate domain.Coordinate) ([]byte, error) {
+
+func (c *coordinateService) Create(
+	coordinate domain.Coordinate, image []byte) ([]byte, error) {
+
+	fileName := random.RandomString(16)
+	err := c.SaveImage(fileName, image)
+	if err != nil {
+		return []byte{}, err
+	}
+	coordinate.ImageName = fileName
+
 	id, err := c.CoordinateRepository.Store(coordinate)
 	if err != nil {
 		return []byte{}, err
 	}
 
-	output, err := c.CoordinatePresenter.ResponseId(id)
+	output, err := c.CoordinatePresenter.ResponseCoordinate(
+		domain.Coordinate{Id: int(id), ImageName: fileName})
 	if err != nil {
 		return []byte{}, err
 	}
