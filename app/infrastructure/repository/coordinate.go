@@ -125,9 +125,8 @@ func (c *coordinateRepository) Store(
 	coordinate domain.Coordinate) (int64, error) {
 
 	result, err := c.db.Exec(
-		`INSERT INTO coordinates(id, image_name, user_id, created_at)
-			VALUES(?, ?, ?, ?)`,
-		coordinate.Id,
+		`INSERT INTO coordinates(image_name, user_id, created_at)
+			VALUES(?, ?, ?)`,
 		coordinate.ImageName,
 		coordinate.UserId,
 		coordinate.CreatedAt.Data)
