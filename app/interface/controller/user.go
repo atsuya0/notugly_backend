@@ -13,8 +13,8 @@ type userController struct {
 
 type UserController interface {
 	Get(string) ([]byte, error)
-	Create(string, []byte) error
-	Update(string, []byte) error
+	Create(string, io.ReadCloser) error
+	Update(string, io.ReadCloser) error
 }
 
 func (u *userController) Get(uid string) ([]byte, error) {
@@ -25,9 +25,9 @@ func (u *userController) Get(uid string) ([]byte, error) {
 	return user, nil
 }
 
-func (u *userController) Create(uid string, body []byte) error {
+func (u *userController) Create(uid string, body io.ReadCloser) error {
 	user := domain.User{Id: uid}
-	if err := json.Unmarshal(body, &user); err != nil {
+	if err := json.NewDecoder(body).Decode(&user); err != nil {
 		return err
 	}
 
@@ -37,9 +37,9 @@ func (u *userController) Create(uid string, body []byte) error {
 	return nil
 }
 
-func (u *userController) Update(uid string, body []byte) error {
+func (u *userController) Update(uid string, body io.ReadCloser) error {
 	user := domain.User{Id: uid}
-	if err := json.Unmarshal(body, &user); err != nil {
+	if err := json.NewDecoder(body).Decode(&user); err != nil {
 		return err
 	}
 

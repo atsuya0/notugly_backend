@@ -43,10 +43,7 @@ func (u *userHandler) PostUser(
 		return
 	}
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	if err := u.UserController.Create(token.UID, body); err != nil {
+	if err := u.UserController.Create(token.UID, r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -63,10 +60,7 @@ func (u *userHandler) PutUser(
 		return
 	}
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	if err := u.UserController.Update(token.UID, body); err != nil {
+	if err := u.UserController.Update(token.UID, r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

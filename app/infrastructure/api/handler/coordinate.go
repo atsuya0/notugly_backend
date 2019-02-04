@@ -80,10 +80,7 @@ func (c *coordinateHandler) PostCoordinate(
 		return
 	}
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	id, err := c.CoordinateController.Create(token.UID, body)
+	id, err := c.CoordinateController.Create(token.UID, r.Body)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -97,10 +94,7 @@ func (c *coordinateHandler) PostCoordinate(
 func (c *coordinateHandler) DeleteCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	if err := c.CoordinateController.Delete(body); err != nil {
+	if err := c.CoordinateController.Delete(r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

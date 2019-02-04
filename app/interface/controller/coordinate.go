@@ -19,7 +19,7 @@ type CoordinateController interface {
 	GetAtRandom(string) ([]byte, error)
 	GetByUserId(string) ([]byte, error)
 	Create(string, io.ReadCloser) ([]byte, error)
-	Delete([]byte) error
+	Delete(io.ReadCloser) error
 }
 
 func (c *coordinateController) Get(coordinateId string) ([]byte, error) {
@@ -69,9 +69,9 @@ func (c *coordinateController) Create(uid string, body io.ReadCloser) ([]byte, e
 	return coordinateId, nil
 }
 
-func (c *coordinateController) Delete(body []byte) error {
+func (c *coordinateController) Delete(body io.ReadCloser) error {
 	var coordinate domain.Coordinate
-	if err := json.Unmarshal(body, &coordinate); err != nil {
+	if err := json.NewDecoder(body).Decode(&coordinate); err != nil {
 		return err
 	}
 

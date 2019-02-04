@@ -12,13 +12,13 @@ type favoriteController struct {
 }
 
 type FavoriteController interface {
-	Create(string, []byte) error
-	Delete(string, []byte) error
+	Create(string, io.ReadCloser) error
+	Delete(string, io.ReadCloser) error
 }
 
-func (f *favoriteController) Create(uid string, body []byte) error {
+func (f *favoriteController) Create(uid string, body io.ReadCloser) error {
 	favorite := domain.Favorite{UserId: uid}
-	if err := json.Unmarshal(body, &favorite); err != nil {
+	if err := json.NewDecoder(body).Decode(&favorite); err != nil {
 		return err
 	}
 
@@ -28,9 +28,9 @@ func (f *favoriteController) Create(uid string, body []byte) error {
 	return nil
 }
 
-func (f *favoriteController) Delete(uid string, body []byte) error {
+func (f *favoriteController) Delete(uid string, body io.ReadCloser) error {
 	favorite := domain.Favorite{UserId: uid}
-	if err := json.Unmarshal(body, &favorite); err != nil {
+	if err := json.NewDecoder(body).Decode(&favorite); err != nil {
 		return err
 	}
 

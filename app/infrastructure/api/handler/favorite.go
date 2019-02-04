@@ -28,10 +28,7 @@ func (f *favoriteHandler) PostFavorite(
 		return
 	}
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	if err := f.FavoriteController.Create(token.UID, body); err != nil {
+	if err := f.FavoriteController.Create(token.UID, r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -49,10 +46,7 @@ func (f *favoriteHandler) DeleteFavorite(
 		return
 	}
 
-	body := make([]byte, r.ContentLength)
-	r.Body.Read(body)
-
-	if err := f.FavoriteController.Delete(token.UID, body); err != nil {
+	if err := f.FavoriteController.Delete(token.UID, r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
