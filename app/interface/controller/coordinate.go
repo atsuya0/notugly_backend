@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"io"
 	"strconv"
 
 	"github.com/tayusa/notugly_backend/app/domain"
@@ -16,7 +18,7 @@ type CoordinateController interface {
 	Get(string) ([]byte, error)
 	GetAtRandom(string) ([]byte, error)
 	GetByUserId(string) ([]byte, error)
-	Create(string, []byte) ([]byte, error)
+	Create(string, io.ReadCloser) ([]byte, error)
 	Delete([]byte) error
 }
 
@@ -49,13 +51,18 @@ func (c *coordinateController) GetByUserId(uid string) ([]byte, error) {
 	return coordinates, nil
 }
 
-func (c *coordinateController) Create(uid string, body []byte) ([]byte, error) {
+func (c *coordinateController) Create(uid string, body io.ReadCloser) ([]byte, error) {
 	coordinate := domain.Coordinate{UserId: uid}
-	if err := json.Unmarshal(body, &coordinate); err != nil {
+	if err := json.NewDecoder(body).Decode(&coordinate); err != nil {
 		return []byte{}, err
 	}
 
-	coordinateId, err := c.coordinateService.Create(coordinate)
+	image, err := base64.StdEncoding.DecodeString(coordinate.Image)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	coordinateId, err := c.coordinateService.Create(coordinate, image)
 	if err != nil {
 		return []byte{}, err
 	}
