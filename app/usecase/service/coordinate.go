@@ -21,6 +21,7 @@ type CoordinateService interface {
 	GetAtRandom(string) ([]byte, error)
 	IsFavorite(int, string) (bool, error)
 	GetByUserId(string) ([]byte, error)
+	SaveImage(string, []byte) error
 	Create(domain.Coordinate, []byte) ([]byte, error)
 	Delete(int) error
 }
@@ -100,6 +101,24 @@ func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
 	return output, nil
 }
 
+func (c *coordinateService) SaveImage(fileName string, image []byte) error {
+	file, err := os.Create("images/" + fileName)
+	defer func() {
+		if err := file.Close(); err != nil {
+			log.Fatalln(err)
+		}
+	}()
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(image)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (c *coordinateService) Create(
 	coordinate domain.Coordinate, image []byte) ([]byte, error) {
