@@ -39,6 +39,7 @@ func (i *interactor) NewCoordinateHandler() handler.CoordinateHandler {
 	return handler.NewCoordinateHandler(
 		controller.NewCoordinateController(
 			service.NewCoordinateService(
+				"images",
 				mysql.NewCoordinateRepository(i.db),
 				presenter.NewCoordinatePresenter())))
 }

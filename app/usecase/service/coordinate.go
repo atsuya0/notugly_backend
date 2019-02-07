@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/tayusa/notugly_backend/app/domain"
 	"github.com/tayusa/notugly_backend/app/usecase/presenter"
@@ -12,6 +13,7 @@ import (
 )
 
 type coordinateService struct {
+	imagePath            string
 	CoordinateRepository repository.CoordinateRepository
 	CoordinatePresenter  presenter.CoordinatePresenter
 }
@@ -102,7 +104,7 @@ func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
 }
 
 func (c *coordinateService) SaveImage(fileName string, image []byte) error {
-	file, err := os.Create("images/" + fileName)
+	file, err := os.Create(filepath.Join(c.imagePath, fileName))
 	defer func() {
 		if err := file.Close(); err != nil {
 			log.Fatalln(err)
@@ -150,8 +152,12 @@ func (c *coordinateService) Delete(coordinateId int) (err error) {
 }
 
 func NewCoordinateService(
+	imagePath string,
 	repository repository.CoordinateRepository,
 	presenter presenter.CoordinatePresenter) CoordinateService {
 
-	return &coordinateService{CoordinateRepository: repository, CoordinatePresenter: presenter}
+	return &coordinateService{
+		imagePath:            imagePath,
+		CoordinateRepository: repository,
+		CoordinatePresenter:  presenter}
 }
