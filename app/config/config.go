@@ -33,8 +33,8 @@ type config struct {
 
 var Data config
 
-func LoadConfig() {
-	file, err := os.Open("./app/config.json")
+func LoadConfig(path string) {
+	file, err := os.Open(path)
 	if err != nil {
 		log.Fatalln(message, err)
 	}

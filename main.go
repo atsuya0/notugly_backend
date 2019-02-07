@@ -15,7 +15,7 @@ func init() {
 }
 
 func main() {
-	config.LoadConfig()
+	config.LoadConfig("./app/config/config.json")
 
 	db := mysql.NewDB()
 	defer func() {
