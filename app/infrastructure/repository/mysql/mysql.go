@@ -1,4 +1,4 @@
-package repository
+package mysql
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 	"github.com/tayusa/notugly_backend/app/config"
 )
 
-func NewMySql() *sql.DB {
+func NewDB() *sql.DB {
 	dataSourceName := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?parseTime=true&loc=Local",
 		config.Data.DB.User,

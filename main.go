@@ -6,7 +6,7 @@ import (
 
 	"github.com/tayusa/notugly_backend/app/config"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/router"
-	"github.com/tayusa/notugly_backend/app/infrastructure/repository"
+	"github.com/tayusa/notugly_backend/app/infrastructure/repository/mysql"
 	"github.com/tayusa/notugly_backend/app/registry"
 )
 
@@ -17,7 +17,7 @@ func init() {
 func main() {
 	config.LoadConfig()
 
-	db := repository.NewMySql()
+	db := mysql.NewDB()
 	defer func() {
 		if err := db.Close(); err != nil {
 			log.Fatalln(err)

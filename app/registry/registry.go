@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/handler"
-	"github.com/tayusa/notugly_backend/app/infrastructure/repository"
+	"github.com/tayusa/notugly_backend/app/infrastructure/repository/mysql"
 	"github.com/tayusa/notugly_backend/app/interface/controller"
 	"github.com/tayusa/notugly_backend/app/interface/presenter"
 	"github.com/tayusa/notugly_backend/app/usecase/service"
@@ -31,7 +31,7 @@ func (i *interactor) NewUserHandler() handler.UserHandler {
 	return handler.NewUserHandler(
 		controller.NewUserController(
 			service.NewUserService(
-				repository.NewUserRepository(i.db),
+				mysql.NewUserRepository(i.db),
 				presenter.NewUserPresenter())))
 }
 
@@ -39,7 +39,7 @@ func (i *interactor) NewCoordinateHandler() handler.CoordinateHandler {
 	return handler.NewCoordinateHandler(
 		controller.NewCoordinateController(
 			service.NewCoordinateService(
-				repository.NewCoordinateRepository(i.db),
+				mysql.NewCoordinateRepository(i.db),
 				presenter.NewCoordinatePresenter())))
 }
 
@@ -47,5 +47,5 @@ func (i *interactor) NewFavoriteHandler() handler.FavoriteHandler {
 	return handler.NewFavoriteHandler(
 		controller.NewFavoriteController(
 			service.NewFavoriteService(
-				repository.NewFavoriteRepository(i.db))))
+				mysql.NewFavoriteRepository(i.db))))
 }
