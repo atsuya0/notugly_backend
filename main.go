@@ -24,9 +24,9 @@ func main() {
 		}
 	}()
 
-	registry := registry.NewInteractor(db)
+	interactor := registry.NewInteractor(db)
 
-	handler := registry.NewAppHandler()
+	handler := interactor.NewAppHandler()
 
 	router := router.NewRouter(handler)
 
