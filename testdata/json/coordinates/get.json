@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "imageName": "test.png",
+    "userId": "A1",
+    "createdAt": "2019-01-07 18:49:32",
+    "favorites": 2,
+    "isFavorited": true
+  },
+  {
+    "id": 1,
+    "imageName": "test.png",
+    "userId": "B2",
+    "createdAt": "2019-01-08 18:49:32",
+    "favorites": 0,
+    "isFavorited": false
+  },
+  {
+    "id": 2,
+    "imageName": "test.png",
+    "userId": "A1",
+    "createdAt": "2019-02-08 10:29:11",
+    "favorites": 0,
+    "isFavorited": false
+  }
+]
