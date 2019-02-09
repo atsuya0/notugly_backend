@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/firebase"
 	"github.com/tayusa/notugly_backend/app/interface/controller"
+	"github.com/tayusa/notugly_backend/app/utils/ctx"
 )
 
 type coordinateHandler struct {
@@ -38,14 +38,7 @@ func (c *coordinateHandler) GetCoordinate(
 func (c *coordinateHandler) GetCoordinateAtRandom(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	coordinate, err := c.CoordinateController.GetAtRandom(token.UID)
+	coordinate, err := c.CoordinateController.GetAtRandom(ctx.GetUserId(r.Context()))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -73,14 +66,7 @@ func (c *coordinateHandler) GetCoordinates(
 func (c *coordinateHandler) PostCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	id, err := c.CoordinateController.Create(token.UID, r.Body)
+	id, err := c.CoordinateController.Create(ctx.GetUserId(r.Context()), r.Body)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
