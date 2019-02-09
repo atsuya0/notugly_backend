@@ -5,9 +5,14 @@ import (
 	"net/http"
 
 	"github.com/tayusa/notugly_backend/app/config"
+	"github.com/tayusa/notugly_backend/app/infrastructure/api/middleware"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/router"
 	"github.com/tayusa/notugly_backend/app/infrastructure/repository/mysql"
 	"github.com/tayusa/notugly_backend/app/registry"
+)
+
+const (
+	configPath = "./app/config/config.json"
 )
 
 func init() {
@@ -15,7 +20,7 @@ func init() {
 }
 
 func main() {
-	config.LoadConfig("./app/config/config.json")
+	config.LoadConfig(configPath)
 
 	db := mysql.NewDB()
 	defer func() {
@@ -28,7 +33,7 @@ func main() {
 
 	handler := interactor.NewAppHandler()
 
-	router := router.NewRouter(handler)
+	router := router.NewRouter(handler, middleware.Auth)
 
 	log.Fatalln(http.ListenAndServe(":"+config.Data.Backend.Port, router))
 }
