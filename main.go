@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/tayusa/notugly_backend/app/config"
+	"github.com/tayusa/notugly_backend/app/infrastructure/api/middleware"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/router"
 	"github.com/tayusa/notugly_backend/app/infrastructure/repository/mysql"
 	"github.com/tayusa/notugly_backend/app/registry"
@@ -28,7 +29,7 @@ func main() {
 
 	handler := interactor.NewAppHandler()
 
-	router := router.NewRouter(handler)
+	router := router.NewRouter(handler, middleware.Auth)
 
 	log.Fatalln(http.ListenAndServe(":"+config.Data.Backend.Port, router))
 }
