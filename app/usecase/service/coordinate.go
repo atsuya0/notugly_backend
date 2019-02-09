@@ -21,9 +21,9 @@ type coordinateService struct {
 type CoordinateService interface {
 	Get(int) ([]byte, error)
 	GetAtRandom(string) ([]byte, error)
-	IsFavorite(int, string) (bool, error)
+	isFavorite(int, string) (bool, error)
 	GetByUserId(string) ([]byte, error)
-	SaveImage(string, []byte) error
+	saveImage(string, []byte) error
 	Create(domain.Coordinate, []byte) ([]byte, error)
 	Delete(int) error
 }
@@ -53,7 +53,7 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 		}
 	}
 
-	isFavorited, err := c.IsFavorite(coordinate.Id, uid)
+	isFavorited, err := c.isFavorite(coordinate.Id, uid)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -67,7 +67,7 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 	return output, nil
 }
 
-func (c *coordinateService) IsFavorite(
+func (c *coordinateService) isFavorite(
 	coordinateId int, uid string) (bool, error) {
 
 	_, err := c.CoordinateRepository.
@@ -103,7 +103,7 @@ func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
 	return output, nil
 }
 
-func (c *coordinateService) SaveImage(fileName string, image []byte) error {
+func (c *coordinateService) saveImage(fileName string, image []byte) error {
 	file, err := os.Create(filepath.Join(c.imagePath, fileName))
 	defer func() {
 		if err := file.Close(); err != nil {
@@ -126,7 +126,7 @@ func (c *coordinateService) Create(
 	coordinate domain.Coordinate, image []byte) ([]byte, error) {
 
 	fileName := random.RandomString(16)
-	err := c.SaveImage(fileName, image)
+	err := c.saveImage(fileName, image)
 	if err != nil {
 		return []byte{}, err
 	}
