@@ -27,24 +27,35 @@ func NewRouter(handler handler.AppHandler) *httprouter.Router {
 	// user
 	router.GET("/users/:uid",
 		middleware.SetHeader(handler.GetUser))
-	router.POST("/users/me", middleware.SetHeader(handler.PostUser))
-	router.PUT("/users/me", middleware.SetHeader(handler.PutUser))
+	router.POST("/users/me",
+		middleware.SetHeader(
+			middleware.Auth(handler.PostUser)))
+	router.PUT("/users/me",
+		middleware.SetHeader(
+			middleware.Auth(handler.PutUser)))
 
 	// coordinate
 	router.GET("/coordinates/:coordinateId",
 		middleware.SetHeader(handler.GetCoordinate))
 	router.GET("/coordinate",
-		middleware.SetHeader(handler.GetCoordinateAtRandom))
+		middleware.SetHeader(
+			middleware.Auth(handler.GetCoordinateAtRandom)))
 	router.GET("/users/:uid/coordinates",
 		middleware.SetHeader(handler.GetCoordinates))
 	router.POST("/coordinates",
-		middleware.SetHeader(handler.PostCoordinate))
+		middleware.SetHeader(
+			middleware.Auth(handler.PostCoordinate)))
 	router.DELETE("/coordinates",
-		middleware.SetHeader(middleware.Auth(handler.DeleteCoordinate)))
+		middleware.SetHeader(
+			middleware.Auth(handler.DeleteCoordinate)))
 
 	// favorite
-	router.POST("/favorites", middleware.SetHeader(handler.PostFavorite))
-	router.DELETE("/favorites", middleware.SetHeader(handler.DeleteFavorite))
+	router.POST("/favorites",
+		middleware.SetHeader(
+			middleware.Auth(handler.PostFavorite)))
+	router.DELETE("/favorites",
+		middleware.SetHeader(
+			middleware.Auth(handler.DeleteFavorite)))
 
 	router.OPTIONS("/*path", handlePreFlight)
 	router.ServeFiles("/images/*filepath", http.Dir("images"))
