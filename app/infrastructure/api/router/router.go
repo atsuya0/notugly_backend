@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+
 	"github.com/tayusa/notugly_backend/app/config"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/handler"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/middleware"
@@ -21,7 +22,9 @@ func handlePreFlight(
 	w.Header().Add("Access-Control-Allow-Headers", "Authorization")
 }
 
-func NewRouter(handler handler.AppHandler) *httprouter.Router {
+func NewRouter(
+	handler handler.AppHandler, auth func(next httprouter.Handle) httprouter.Handle) *httprouter.Router {
+
 	router := httprouter.New()
 
 	// user
@@ -29,33 +32,33 @@ func NewRouter(handler handler.AppHandler) *httprouter.Router {
 		middleware.SetHeader(handler.GetUser))
 	router.POST("/users/me",
 		middleware.SetHeader(
-			middleware.Auth(handler.PostUser)))
+			auth(handler.PostUser)))
 	router.PUT("/users/me",
 		middleware.SetHeader(
-			middleware.Auth(handler.PutUser)))
+			auth(handler.PutUser)))
 
 	// coordinate
 	router.GET("/coordinates/:coordinateId",
 		middleware.SetHeader(handler.GetCoordinate))
 	router.GET("/coordinate",
 		middleware.SetHeader(
-			middleware.Auth(handler.GetCoordinateAtRandom)))
+			auth(handler.GetCoordinateAtRandom)))
 	router.GET("/users/:uid/coordinates",
 		middleware.SetHeader(handler.GetCoordinates))
 	router.POST("/coordinates",
 		middleware.SetHeader(
-			middleware.Auth(handler.PostCoordinate)))
+			auth(handler.PostCoordinate)))
 	router.DELETE("/coordinates",
 		middleware.SetHeader(
-			middleware.Auth(handler.DeleteCoordinate)))
+			auth(handler.DeleteCoordinate)))
 
 	// favorite
 	router.POST("/favorites",
 		middleware.SetHeader(
-			middleware.Auth(handler.PostFavorite)))
+			auth(handler.PostFavorite)))
 	router.DELETE("/favorites",
 		middleware.SetHeader(
-			middleware.Auth(handler.DeleteFavorite)))
+			auth(handler.DeleteFavorite)))
 
 	router.OPTIONS("/*path", handlePreFlight)
 	router.ServeFiles("/images/*filepath", http.Dir("images"))
