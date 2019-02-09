@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/firebase"
 	"github.com/tayusa/notugly_backend/app/interface/controller"
+	"github.com/tayusa/notugly_backend/app/utils/ctx"
 )
 
 type userHandler struct {
@@ -35,15 +35,7 @@ func (u *userHandler) GetUser(
 
 func (u *userHandler) PostUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if err := u.UserController.Create(token.UID, r.Body); err != nil {
+	if err := u.UserController.Create(ctx.GetUserId(r.Context()), r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -53,14 +45,7 @@ func (u *userHandler) PostUser(
 func (u *userHandler) PutUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if err := u.UserController.Update(token.UID, r.Body); err != nil {
+	if err := u.UserController.Update(ctx.GetUserId(r.Context()), r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

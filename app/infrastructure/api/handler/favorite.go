@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/firebase"
 	"github.com/tayusa/notugly_backend/app/interface/controller"
+	"github.com/tayusa/notugly_backend/app/utils/ctx"
 )
 
 type favoriteHandler struct {
@@ -21,14 +21,7 @@ type FavoriteHandler interface {
 func (f *favoriteHandler) PostFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if err := f.FavoriteController.Create(token.UID, r.Body); err != nil {
+	if err := f.FavoriteController.Create(ctx.GetUserId(r.Context()), r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -39,14 +32,7 @@ func (f *favoriteHandler) PostFavorite(
 func (f *favoriteHandler) DeleteFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	token, err := firebase.FetchToken(r)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if err := f.FavoriteController.Delete(token.UID, r.Body); err != nil {
+	if err := f.FavoriteController.Delete(ctx.GetUserId(r.Context()), r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

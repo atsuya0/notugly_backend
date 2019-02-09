@@ -6,20 +6,27 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+
 	"github.com/tayusa/notugly_backend/app/config"
 	"github.com/tayusa/notugly_backend/app/infrastructure/api/firebase"
+	"github.com/tayusa/notugly_backend/app/utils/ctx"
 )
 
 func Auth(next httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-		_, err := firebase.FetchToken(r)
+		token, err := firebase.FetchToken(r)
 		if err != nil {
 			log.Printf("error verifying ID token: %v\n", err)
 			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("error verifying ID token\n"))
 			return
 		}
-		next(w, r, p)
+
+		next(
+			w,
+			r.WithContext(
+				ctx.SetUserId(r.Context(), token.UID)),
+			p)
 	}
 }
 
