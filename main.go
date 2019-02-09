@@ -11,12 +11,16 @@ import (
 	"github.com/tayusa/notugly_backend/app/registry"
 )
 
+const (
+	configPath = "./app/config/config.json"
+)
+
 func init() {
 	log.SetFlags(log.Ltime | log.Llongfile)
 }
 
 func main() {
-	config.LoadConfig("./app/config/config.json")
+	config.LoadConfig(configPath)
 
 	db := mysql.NewDB()
 	defer func() {
