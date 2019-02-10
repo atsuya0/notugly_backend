@@ -1,19 +1,15 @@
-app := notugly
-source := ./app
-credentials := $(source)/credentials.json
+.PHONY: up down build test format
 
-.PHONY: run build test format docker-up docker-down
-
-run: build
-	@FIREBASE_AUTH_CREDENTIALS=$(credentials) ./$(app)
-build: format
-	@go build -o $(app)
-test: format
-	@go test -v
-format:
-	@goimports -w $(source) ./main.go ./main_test.go
-docker-up:
+up:
 	@docker info &> /dev/null || sudo systemctl start docker
 	@docker-compose up
-docker-down:
+down:
 	@docker-compose down
+build: format
+	@docker info &> /dev/null || sudo systemctl start docker
+	@docker-compose run app make build
+test: format
+	@docker info &> /dev/null || sudo systemctl start docker
+	@docker-compose run app go test -v
+format:
+	@goimports -w ./app
