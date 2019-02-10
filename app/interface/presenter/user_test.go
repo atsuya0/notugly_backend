@@ -5,7 +5,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/tayusa/notugly_backend/app/domain"
+	"github.com/tayusa/notugly_backend/domain"
 )
 
 func TestResponseUser(t *testing.T) {

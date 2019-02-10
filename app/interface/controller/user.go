@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/tayusa/notugly_backend/app/domain"
-	"github.com/tayusa/notugly_backend/app/usecase/service"
+	"github.com/tayusa/notugly_backend/domain"
+	"github.com/tayusa/notugly_backend/usecase/service"
 )
 
 type userController struct {

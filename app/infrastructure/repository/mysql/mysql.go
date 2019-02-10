@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/tayusa/notugly_backend/app/config"
+	"github.com/tayusa/notugly_backend/config"
 )
 
 func NewDB() *sql.DB {

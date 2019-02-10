@@ -1,5 +1,5 @@
 /db/data
 /app/credentials.json
-/notugly
-/images
-/testdata/images
+/app/app
+/app/images
+/app/testdata/images

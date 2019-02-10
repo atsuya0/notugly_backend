@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/tayusa/notugly_backend/app/domain"
-	"github.com/tayusa/notugly_backend/app/usecase/presenter"
-	"github.com/tayusa/notugly_backend/app/usecase/repository"
-	"github.com/tayusa/notugly_backend/app/utils/random"
+	"github.com/tayusa/notugly_backend/domain"
+	"github.com/tayusa/notugly_backend/usecase/presenter"
+	"github.com/tayusa/notugly_backend/usecase/repository"
+	"github.com/tayusa/notugly_backend/utils/random"
 )
 
 type coordinateService struct {

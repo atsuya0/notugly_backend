@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/tayusa/notugly_backend/app/domain"
-	"github.com/tayusa/notugly_backend/app/usecase/repository"
+	"github.com/tayusa/notugly_backend/domain"
+	"github.com/tayusa/notugly_backend/usecase/repository"
 )
 
 type favoriteService struct {

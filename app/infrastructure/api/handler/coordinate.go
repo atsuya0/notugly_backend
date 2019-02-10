@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tayusa/notugly_backend/app/interface/controller"
-	"github.com/tayusa/notugly_backend/app/utils/ctx"
+	"github.com/tayusa/notugly_backend/interface/controller"
+	"github.com/tayusa/notugly_backend/utils/ctx"
 )
 
 type coordinateHandler struct {

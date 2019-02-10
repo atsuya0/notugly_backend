@@ -4,15 +4,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tayusa/notugly_backend/app/config"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/middleware"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/router"
-	"github.com/tayusa/notugly_backend/app/infrastructure/repository/mysql"
-	"github.com/tayusa/notugly_backend/app/registry"
+	"github.com/tayusa/notugly_backend/config"
+	"github.com/tayusa/notugly_backend/infrastructure/api/middleware"
+	"github.com/tayusa/notugly_backend/infrastructure/api/router"
+	"github.com/tayusa/notugly_backend/infrastructure/repository/mysql"
+	"github.com/tayusa/notugly_backend/registry"
 )
 
 const (
-	configPath = "./app/config/config.json"
+	configPath = "./config/config.json"
 )
 
 func init() {

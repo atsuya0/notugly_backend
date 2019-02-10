@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/handler"
+	"github.com/tayusa/notugly_backend/infrastructure/api/handler"
 )
 
 type Iteractor interface {
