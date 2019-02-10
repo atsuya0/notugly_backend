@@ -16,12 +16,12 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/tayusa/notugly_backend/app/config"
-	"github.com/tayusa/notugly_backend/app/domain"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/router"
-	"github.com/tayusa/notugly_backend/app/infrastructure/repository/dummy"
-	"github.com/tayusa/notugly_backend/app/registry"
-	"github.com/tayusa/notugly_backend/app/utils/ctx"
+	"github.com/tayusa/notugly_backend/config"
+	"github.com/tayusa/notugly_backend/domain"
+	"github.com/tayusa/notugly_backend/infrastructure/api/router"
+	"github.com/tayusa/notugly_backend/infrastructure/repository/dummy"
+	"github.com/tayusa/notugly_backend/registry"
+	"github.com/tayusa/notugly_backend/utils/ctx"
 )
 
 const (

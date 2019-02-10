@@ -1,15 +1,35 @@
 version: '3'
 services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+        root: /app
+    container_name: 'app'
+    working_dir: '/app'
+    command: bash -c 'go build -o app && ./app'
+    environment:
+      FIREBASE_AUTH_CREDENTIALS: '/app/credentials.json'
+      GO_PORT: '${GO_PORT}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_HOST: '${MYSQL_HOST}'
+      MYSQL_PORT: '${MYSQL_PORT}'
+    volumes:
+      - ./app:/app
+    ports:
+      - '${GO_PORT}:${GO_PORT}'
   db:
     image: mariadb:latest
-    container_name: 'db'
+    container_name: '${MYSQL_HOST}'
     command: mysqld --character-set-server=utf8mb4
     environment:
-      MYSQL_USER: test_user
-      MYSQL_PASSWORD: test_password
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
     volumes:
       - ./db/data:/var/lib/mysql
       - ./db/sql:/docker-entrypoint-initdb.d
-    ports:
-      - '3306:3306'
+    expose:
+      - '${MYSQL_PORT}'

@@ -6,9 +6,9 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/tayusa/notugly_backend/app/config"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/handler"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/middleware"
+	"github.com/tayusa/notugly_backend/config"
+	"github.com/tayusa/notugly_backend/infrastructure/api/handler"
+	"github.com/tayusa/notugly_backend/infrastructure/api/middleware"
 )
 
 func handlePreFlight(

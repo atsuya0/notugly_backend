@@ -1,11 +1,11 @@
 package registry
 
 import (
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/handler"
-	"github.com/tayusa/notugly_backend/app/infrastructure/repository/dummy"
-	"github.com/tayusa/notugly_backend/app/interface/controller"
-	"github.com/tayusa/notugly_backend/app/interface/presenter"
-	"github.com/tayusa/notugly_backend/app/usecase/service"
+	"github.com/tayusa/notugly_backend/infrastructure/api/handler"
+	"github.com/tayusa/notugly_backend/infrastructure/repository/dummy"
+	"github.com/tayusa/notugly_backend/interface/controller"
+	"github.com/tayusa/notugly_backend/interface/presenter"
+	"github.com/tayusa/notugly_backend/usecase/service"
 )
 
 type dummyInteractor struct {

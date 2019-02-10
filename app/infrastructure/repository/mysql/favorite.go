@@ -3,7 +3,7 @@ package mysql
 import (
 	"database/sql"
 
-	"github.com/tayusa/notugly_backend/app/domain"
+	"github.com/tayusa/notugly_backend/domain"
 )
 
 type favoriteRepository struct {

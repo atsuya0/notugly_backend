@@ -7,9 +7,9 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/tayusa/notugly_backend/app/config"
-	"github.com/tayusa/notugly_backend/app/infrastructure/api/firebase"
-	"github.com/tayusa/notugly_backend/app/utils/ctx"
+	"github.com/tayusa/notugly_backend/config"
+	"github.com/tayusa/notugly_backend/infrastructure/api/firebase"
+	"github.com/tayusa/notugly_backend/utils/ctx"
 )
 
 func Auth(next httprouter.Handle) httprouter.Handle {

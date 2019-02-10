@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/tayusa/notugly_backend/app/domain"
+	"github.com/tayusa/notugly_backend/domain"
 )
 
 type CoordinateRepository interface {

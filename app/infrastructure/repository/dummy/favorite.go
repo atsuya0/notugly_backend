@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/tayusa/notugly_backend/app/domain"
+	"github.com/tayusa/notugly_backend/domain"
 )
 
 type dummyFavoriteRepository struct {
