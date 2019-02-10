@@ -43,4 +43,20 @@ func LoadConfig(path string) {
 	if err = decoder.Decode(&Data); err != nil {
 		log.Fatalln(message, err)
 	}
+
+	if port := os.Getenv("GO_PORT"); port != "" {
+		Data.Backend.Port = port
+	}
+	if user := os.Getenv("MYSQL_USER"); user != "" {
+		Data.DB.User = user
+	}
+	if password := os.Getenv("MYSQL_PASSWORD"); password != "" {
+		Data.DB.Password = password
+	}
+	if host := os.Getenv("MYSQL_HOST"); host != "" {
+		Data.DB.Host = host
+	}
+	if port := os.Getenv("MYSQL_PORT"); port != "" {
+		Data.DB.Port = port
+	}
 }
