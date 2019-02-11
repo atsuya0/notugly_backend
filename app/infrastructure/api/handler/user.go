@@ -35,7 +35,9 @@ func (u *userHandler) GetUser(
 
 func (u *userHandler) PostUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	if err := u.UserController.Create(ctx.GetUserId(r.Context()), r.Body); err != nil {
+	if err := u.UserController.Create(
+		ctx.GetUserId(r.Context()), r.Body); err != nil {
+
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -45,7 +47,9 @@ func (u *userHandler) PostUser(
 func (u *userHandler) PutUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	if err := u.UserController.Update(ctx.GetUserId(r.Context()), r.Body); err != nil {
+	if err := u.UserController.Update(
+		ctx.GetUserId(r.Context()), r.Body); err != nil {
+
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

@@ -38,7 +38,8 @@ func (c *coordinateHandler) GetCoordinate(
 func (c *coordinateHandler) GetCoordinateAtRandom(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	coordinate, err := c.CoordinateController.GetAtRandom(ctx.GetUserId(r.Context()))
+	coordinate, err := c.CoordinateController.GetAtRandom(
+		ctx.GetUserId(r.Context()))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

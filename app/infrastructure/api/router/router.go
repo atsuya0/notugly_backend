@@ -23,7 +23,8 @@ func handlePreFlight(
 }
 
 func NewRouter(
-	handler handler.AppHandler, auth func(next httprouter.Handle) httprouter.Handle) *httprouter.Router {
+	handler handler.AppHandler,
+	auth func(next httprouter.Handle) httprouter.Handle) *httprouter.Router {
 
 	router := httprouter.New()
 

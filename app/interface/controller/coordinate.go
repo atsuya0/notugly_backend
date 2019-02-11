@@ -51,7 +51,9 @@ func (c *coordinateController) GetByUserId(uid string) ([]byte, error) {
 	return coordinates, nil
 }
 
-func (c *coordinateController) Create(uid string, body io.ReadCloser) ([]byte, error) {
+func (c *coordinateController) Create(
+	uid string, body io.ReadCloser) ([]byte, error) {
+
 	coordinate := domain.Coordinate{UserId: uid}
 	if err := json.NewDecoder(body).Decode(&coordinate); err != nil {
 		return []byte{}, err
@@ -81,6 +83,8 @@ func (c *coordinateController) Delete(body io.ReadCloser) error {
 	return nil
 }
 
-func NewCoordinateController(service service.CoordinateService) CoordinateController {
+func NewCoordinateController(
+	service service.CoordinateService) CoordinateController {
+
 	return &coordinateController{service}
 }

@@ -21,7 +21,9 @@ type FavoriteHandler interface {
 func (f *favoriteHandler) PostFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	if err := f.FavoriteController.Create(ctx.GetUserId(r.Context()), r.Body); err != nil {
+	if err := f.FavoriteController.Create(
+		ctx.GetUserId(r.Context()), r.Body); err != nil {
+
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
