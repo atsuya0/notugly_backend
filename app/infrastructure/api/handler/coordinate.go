@@ -88,7 +88,6 @@ func (c *coordinateHandler) DeleteCoordinate(
 	return
 }
 
-func NewCoordinateHandler(
-	controller controller.CoordinateController) CoordinateHandler {
-	return &coordinateHandler{controller}
+func NewCoordinateHandler(c controller.CoordinateController) CoordinateHandler {
+	return &coordinateHandler{c}
 }

@@ -153,11 +153,11 @@ func (c *coordinateService) Delete(coordinateId int) (err error) {
 
 func NewCoordinateService(
 	imagePath string,
-	repository repository.CoordinateRepository,
-	presenter presenter.CoordinatePresenter) CoordinateService {
+	r repository.CoordinateRepository,
+	p presenter.CoordinatePresenter) CoordinateService {
 
 	return &coordinateService{
 		imagePath:            imagePath,
-		CoordinateRepository: repository,
-		CoordinatePresenter:  presenter}
+		CoordinateRepository: r,
+		CoordinatePresenter:  p}
 }

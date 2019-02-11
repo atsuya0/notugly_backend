@@ -42,8 +42,8 @@ func (u *userService) Update(user domain.User) (err error) {
 }
 
 func NewUserService(
-	repository repository.UserRepository,
-	presenter presenter.UserPresenter) UserService {
+	r repository.UserRepository,
+	p presenter.UserPresenter) UserService {
 
-	return &userService{UserRepository: repository, UserPresenter: presenter}
+	return &userService{UserRepository: r, UserPresenter: p}
 }

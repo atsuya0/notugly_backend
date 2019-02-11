@@ -42,7 +42,6 @@ func (f *favoriteHandler) DeleteFavorite(
 	return
 }
 
-func NewFavoriteHandler(
-	controller controller.FavoriteController) FavoriteHandler {
-	return &favoriteHandler{controller}
+func NewFavoriteHandler(c controller.FavoriteController) FavoriteHandler {
+	return &favoriteHandler{c}
 }

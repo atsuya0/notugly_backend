@@ -41,6 +41,6 @@ func (f *favoriteController) Delete(uid string, body io.ReadCloser) error {
 	return nil
 }
 
-func NewFavoriteController(service service.FavoriteService) FavoriteController {
-	return &favoriteController{service}
+func NewFavoriteController(s service.FavoriteService) FavoriteController {
+	return &favoriteController{s}
 }

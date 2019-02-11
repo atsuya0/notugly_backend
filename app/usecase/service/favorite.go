@@ -24,7 +24,6 @@ func (f *favoriteService) Delete(favorite domain.Favorite) (err error) {
 	return
 }
 
-func NewFavoriteService(
-	repository repository.FavoriteRepository) FavoriteService {
-	return &favoriteService{repository}
+func NewFavoriteService(r repository.FavoriteRepository) FavoriteService {
+	return &favoriteService{r}
 }

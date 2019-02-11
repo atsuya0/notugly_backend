@@ -83,8 +83,6 @@ func (c *coordinateController) Delete(body io.ReadCloser) error {
 	return nil
 }
 
-func NewCoordinateController(
-	service service.CoordinateService) CoordinateController {
-
-	return &coordinateController{service}
+func NewCoordinateController(s service.CoordinateService) CoordinateController {
+	return &coordinateController{s}
 }

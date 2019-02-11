@@ -57,6 +57,6 @@ func (u *userHandler) PutUser(
 	return
 }
 
-func NewUserHandler(controller controller.UserController) UserHandler {
-	return &userHandler{controller}
+func NewUserHandler(c controller.UserController) UserHandler {
+	return &userHandler{c}
 }

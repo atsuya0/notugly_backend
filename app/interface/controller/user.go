@@ -50,6 +50,6 @@ func (u *userController) Update(uid string, body io.ReadCloser) error {
 	return nil
 }
 
-func NewUserController(service service.UserService) UserController {
-	return &userController{service}
+func NewUserController(s service.UserService) UserController {
+	return &userController{s}
 }
