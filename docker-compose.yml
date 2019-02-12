@@ -2,22 +2,21 @@ version: '3'
 services:
   app:
     build:
-      context: ./app
+      context: ./src
       dockerfile: Dockerfile
       args:
-        root: /app
+        ROOT: /app
     container_name: 'app'
-    working_dir: '/app'
     command: bash -c 'go build -o app && ./app'
     environment:
-      FIREBASE_AUTH_CREDENTIALS: '/app/credentials.json'
+      FIREBASE_AUTH_CREDENTIALS: './api/credentials.json'
       GO_PORT: '${GO_PORT}'
       MYSQL_USER: '${MYSQL_USER}'
       MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
       MYSQL_HOST: '${MYSQL_HOST}'
       MYSQL_PORT: '${MYSQL_PORT}'
     volumes:
-      - ./app:/app
+      - ./src:/app
     ports:
       - '${GO_PORT}:${GO_PORT}'
   db:

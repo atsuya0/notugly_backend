@@ -1,0 +1,41 @@
+package middleware
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+
+	config "github.com/tayusa/notugly_backend/configs"
+	"github.com/tayusa/notugly_backend/pkg/ctx"
+	"github.com/tayusa/notugly_backend/pkg/firebase"
+)
+
+func Auth(next httprouter.Handle) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		token, err := firebase.FetchToken(r)
+		if err != nil {
+			log.Printf("error verifying ID token: %v\n", err)
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("error verifying ID token\n"))
+			return
+		}
+
+		next(
+			w,
+			r.WithContext(
+				ctx.SetUserId(r.Context(), token.UID)),
+			p)
+	}
+}
+
+func SetHeader(next httprouter.Handle) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		w.Header().Set("Content-Type", "application/json")
+		origin := fmt.Sprintf(
+			"http://%s:%s", config.Data.Frontend.Host, config.Data.Frontend.Port)
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		next(w, r, p)
+	}
+}

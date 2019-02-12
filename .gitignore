@@ -1,5 +1,5 @@
 /db/data
-/app/credentials.json
-/app/app
-/app/images
-/app/testdata/images
+/src/api/credentials.json
+/src/app
+/src/images
+/src/test/images
