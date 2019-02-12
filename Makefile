@@ -1,15 +1,18 @@
-.PHONY: up down build test format
+go := docker-compose run app go
 
-up:
-	@docker info &> /dev/null || sudo systemctl start docker
+.PHONY: up down build test format docker-start
+
+up: docker-start
 	@docker-compose up
+build: docker-start
+	@docker-compose up --build
 down:
 	@docker-compose down
-build: format
-	@docker info &> /dev/null || sudo systemctl start docker
-	@docker-compose run app make build
-test: format
-	@docker info &> /dev/null || sudo systemctl start docker
-	@docker-compose run app go test -v
+go-build: docker-start format
+	@$(go) build -o app
+test: docker-start format
+	@$(go) test -v
 format:
-	@goimports -w ./app
+	@goimports -w ./src
+docker-start:
+	@docker info &> /dev/null || sudo systemctl start docker
