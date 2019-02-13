@@ -133,6 +133,10 @@ func TestPostUser(t *testing.T) {
 }
 
 func TestGetCoordinates(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
+
 	dummyCoordinates, err := dummy.GetCoordinates(dummy.GET)
 	if err != nil {
 		log.Fatalln(err)
@@ -193,6 +197,10 @@ func imageToBase64(path string) (string, error) {
 }
 
 func TestPostCoordinate(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
+
 	dummyCoordinates, err := dummy.GetCoordinates(dummy.POST)
 	if err != nil {
 		log.Fatalln(err)
