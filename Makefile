@@ -11,7 +11,7 @@ down:
 go-build: docker-start format
 	@$(go) build -o app
 test: docker-start format
-	@$(go) test -v
+	@$(go) test -v -cover
 format:
 	@goimports -w ./src
 docker-start:
