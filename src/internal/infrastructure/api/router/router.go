@@ -6,7 +6,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	config "github.com/tayusa/notugly_backend/configs"
+	"github.com/tayusa/notugly_backend/configs"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/handler"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/middleware"
 )
@@ -15,7 +15,7 @@ func handlePreFlight(
 	w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	origin := fmt.Sprintf(
-		"http://%s:%s", config.Data.Frontend.Host, config.Data.Frontend.Port)
+		"http://%s:%s", configs.Data.Frontend.Host, configs.Data.Frontend.Port)
 	w.Header().Set("Access-Control-Allow-Origin", origin)
 	w.Header().Set("Access-Control-Allow-Methods", "*")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
