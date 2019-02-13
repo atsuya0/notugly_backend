@@ -4,8 +4,8 @@ import (
 	"testing"
 )
 
-func TestRandomString(t *testing.T) {
-	request := [2]int{3, 5}
+func TestRandomStringLength(t *testing.T) {
+	request := [3]int{2, 4, 6}
 
 	for _, v := range request {
 		randomString := RandomString(v)
@@ -14,11 +14,16 @@ func TestRandomString(t *testing.T) {
 			t.Errorf("The length is different. request: %d, output: %d", v, output)
 		}
 	}
+}
 
-	firstString := RandomString(request[0])
-	secondString := RandomString(request[0])
-	if firstString == secondString {
-		t.Errorf("Not a random character string. first: %s, second: %s",
-			firstString, secondString)
+func TestRandomString(t *testing.T) {
+	const (
+		length = 10
+		max    = 1000
+	)
+	for i := 0; i < max; i++ {
+		if RandomString(length) == RandomString(length) {
+			t.Errorf("Not a random character string")
+		}
 	}
 }
