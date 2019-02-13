@@ -1,4 +1,5 @@
 go := docker-compose run app go
+test := $(go) test -v -cover -parallel 4
 
 .PHONY: up down build test format docker-start
 
@@ -11,9 +12,9 @@ down:
 go-build: docker-start format
 	@$(go) build -o app
 test: docker-start format
-	@$(go) test -v -cover
+	@$(test)
 test-short: docker-start format
-	@$(go) test -v -cover -short
+	@$(test) -short
 format:
 	@goimports -w ./src
 docker-start:

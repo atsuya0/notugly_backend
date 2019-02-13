@@ -76,6 +76,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetUser(t *testing.T) {
+	t.Parallel()
+
 	dummyUsers, err := dummy.GetUsers(dummy.GET)
 	if err != nil {
 		log.Fatalln(err)
@@ -107,6 +109,8 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestPostUser(t *testing.T) {
+	t.Parallel()
+
 	dummyUsers, err := dummy.GetUsers(dummy.POST)
 	if err != nil {
 		log.Fatalln(err)
@@ -133,6 +137,7 @@ func TestPostUser(t *testing.T) {
 }
 
 func TestGetCoordinates(t *testing.T) {
+	t.Parallel()
 	if testing.Short() {
 		t.Skip()
 	}
@@ -197,6 +202,7 @@ func imageToBase64(path string) (string, error) {
 }
 
 func TestPostCoordinate(t *testing.T) {
+	t.Parallel()
 	if testing.Short() {
 		t.Skip()
 	}
