@@ -4,8 +4,8 @@ import (
 	"testing"
 )
 
-func TestRandomString(t *testing.T) {
-	request := [2]int{3, 5}
+func TestRandomStringLength(t *testing.T) {
+	request := [3]int{2, 4, 6}
 
 	for _, v := range request {
 		randomString := RandomString(v)
