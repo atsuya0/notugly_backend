@@ -7,7 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	config "github.com/tayusa/notugly_backend/configs"
+	"github.com/tayusa/notugly_backend/configs"
 	"github.com/tayusa/notugly_backend/pkg/ctx"
 	"github.com/tayusa/notugly_backend/pkg/firebase"
 )
@@ -34,7 +34,7 @@ func SetHeader(next httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		w.Header().Set("Content-Type", "application/json")
 		origin := fmt.Sprintf(
-			"http://%s:%s", config.Data.Frontend.Host, config.Data.Frontend.Port)
+			"http://%s:%s", configs.Data.Frontend.Host, configs.Data.Frontend.Port)
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 		next(w, r, p)
 	}
