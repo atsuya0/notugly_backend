@@ -25,5 +25,7 @@ func NewDB() *sql.DB {
 	}
 
 	db.SetMaxOpenConns(100)
+	db.SetMaxIdleConns(100)
+
 	return db
 }
