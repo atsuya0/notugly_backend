@@ -25,7 +25,7 @@ func NewDummyFavoriteRepository() *dummyFavoriteRepository {
 
 func GetFavorites(method int) ([]domain.Favorite, error) {
 	bytes, err := ioutil.ReadFile(
-		filepath.Join("test/json/favorites", methods[method]+".json"))
+		filepath.Join(jsonPath, "favorites", methods[method]+".json"))
 	if err != nil {
 		return []domain.Favorite{}, err
 	}

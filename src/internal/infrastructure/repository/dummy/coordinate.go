@@ -90,7 +90,7 @@ func NewDummyCoordinateRepository() *dummyCoordinateRepository {
 
 func GetCoordinates(method int) ([]domain.Coordinate, error) {
 	bytes, err := ioutil.ReadFile(
-		filepath.Join("test/json/coordinates", methods[method]+".json"))
+		filepath.Join(jsonPath, "coordinates", methods[method]+".json"))
 	if err != nil {
 		return []domain.Coordinate{}, err
 	}

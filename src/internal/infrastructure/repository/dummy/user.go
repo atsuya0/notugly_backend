@@ -41,7 +41,7 @@ func NewDummyUserRepository() *dummyUserRepository {
 
 func GetUsers(method int) ([]domain.User, error) {
 	bytes, err := ioutil.ReadFile(
-		filepath.Join("test/json/users", methods[method]+".json"))
+		filepath.Join(jsonPath, "users", methods[method]+".json"))
 	if err != nil {
 		return []domain.User{}, err
 	}
