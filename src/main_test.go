@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/julienschmidt/httprouter"
@@ -26,7 +25,7 @@ import (
 
 const (
 	dummyUserId = "A1"
-	imageName   = "test.png"
+	imagePath   = "test/images/test.png"
 )
 
 var (
@@ -212,7 +211,7 @@ func TestPostCoordinate(t *testing.T) {
 		log.Fatalln(err)
 	}
 
-	image, err := imageToBase64(filepath.Join("test/images", imageName))
+	image, err := imageToBase64(imagePath)
 	if err != nil {
 		log.Fatalln(err)
 	}
