@@ -3,6 +3,8 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tayusa/notugly_backend/configs"
@@ -20,8 +22,12 @@ func NewDB() *sql.DB {
 
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
+
+	db.SetMaxOpenConns(100)
+	db.SetMaxIdleConns(100)
+	db.SetConnMaxLifetime(time.Second * 100)
 
 	return db
 }
