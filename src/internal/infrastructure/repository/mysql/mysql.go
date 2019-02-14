@@ -24,5 +24,6 @@ func NewDB() *sql.DB {
 		log.Println(err)
 	}
 
+	db.SetMaxOpenConns(100)
 	return db
 }
