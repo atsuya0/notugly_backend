@@ -1,6 +1,8 @@
-package dummy
+package json
 
 const (
+	jsonPath = "test/json"
+
 	GET = iota
 	POST
 )

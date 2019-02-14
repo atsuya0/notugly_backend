@@ -2,17 +2,18 @@ package registry
 
 import (
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/handler"
-	"github.com/tayusa/notugly_backend/internal/infrastructure/repository/dummy"
+	"github.com/tayusa/notugly_backend/internal/infrastructure/repository/json"
 	"github.com/tayusa/notugly_backend/internal/interface/controller"
 	"github.com/tayusa/notugly_backend/internal/interface/presenter"
 	"github.com/tayusa/notugly_backend/internal/usecase/service"
 )
 
 type dummyInteractor struct {
+	imagePath string
 }
 
-func NewDummyInteractor() Iteractor {
-	return &dummyInteractor{}
+func NewDummyInteractor(imagePath string) Iteractor {
+	return &dummyInteractor{imagePath}
 }
 
 func (i *dummyInteractor) NewAppHandler() handler.AppHandler {
@@ -24,7 +25,7 @@ func (i *dummyInteractor) NewUserHandler() handler.UserHandler {
 	return handler.NewUserHandler(
 		controller.NewUserController(
 			service.NewUserService(
-				dummy.NewDummyUserRepository(),
+				json.NewUserRepository(),
 				presenter.NewUserPresenter())))
 }
 
@@ -32,8 +33,8 @@ func (i *dummyInteractor) NewCoordinateHandler() handler.CoordinateHandler {
 	return handler.NewCoordinateHandler(
 		controller.NewCoordinateController(
 			service.NewCoordinateService(
-				"test/images",
-				dummy.NewDummyCoordinateRepository(),
+				i.imagePath,
+				json.NewCoordinateRepository(),
 				presenter.NewCoordinatePresenter())))
 }
 
@@ -41,5 +42,5 @@ func (i *dummyInteractor) NewFavoriteHandler() handler.FavoriteHandler {
 	return handler.NewFavoriteHandler(
 		controller.NewFavoriteController(
 			service.NewFavoriteService(
-				dummy.NewDummyFavoriteRepository())))
+				json.NewFavoriteRepository())))
 }

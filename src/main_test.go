@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/julienschmidt/httprouter"
@@ -19,14 +18,14 @@ import (
 	"github.com/tayusa/notugly_backend/configs"
 	"github.com/tayusa/notugly_backend/internal/domain"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/router"
-	"github.com/tayusa/notugly_backend/internal/infrastructure/repository/dummy"
+	repository "github.com/tayusa/notugly_backend/internal/infrastructure/repository/json"
 	"github.com/tayusa/notugly_backend/internal/registry"
 	"github.com/tayusa/notugly_backend/pkg/ctx"
 )
 
 const (
 	dummyUserId = "A1"
-	imageName   = "test.png"
+	imagePath   = "test/images/test.png"
 )
 
 var (
@@ -46,7 +45,7 @@ func dummyAuth(next httprouter.Handle) httprouter.Handle {
 func setUp() {
 	configs.LoadConfig(configPath)
 
-	interactor := registry.NewDummyInteractor()
+	interactor := registry.NewDummyInteractor("test/images")
 	handler := interactor.NewAppHandler()
 	testRouter = router.NewRouter(handler, dummyAuth)
 }
@@ -78,7 +77,7 @@ func TestMain(m *testing.M) {
 func TestGetUser(t *testing.T) {
 	t.Parallel()
 
-	dummyUsers, err := dummy.GetUsers(dummy.GET)
+	dummyUsers, err := repository.GetUsers(repository.GET)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -111,7 +110,7 @@ func TestGetUser(t *testing.T) {
 func TestPostUser(t *testing.T) {
 	t.Parallel()
 
-	dummyUsers, err := dummy.GetUsers(dummy.POST)
+	dummyUsers, err := repository.GetUsers(repository.POST)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -142,7 +141,7 @@ func TestGetCoordinates(t *testing.T) {
 		t.Skip()
 	}
 
-	dummyCoordinates, err := dummy.GetCoordinates(dummy.GET)
+	dummyCoordinates, err := repository.GetCoordinates(repository.GET)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -207,12 +206,12 @@ func TestPostCoordinate(t *testing.T) {
 		t.Skip()
 	}
 
-	dummyCoordinates, err := dummy.GetCoordinates(dummy.POST)
+	dummyCoordinates, err := repository.GetCoordinates(repository.POST)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	image, err := imageToBase64(filepath.Join("test/images", imageName))
+	image, err := imageToBase64(imagePath)
 	if err != nil {
 		log.Fatalln(err)
 	}

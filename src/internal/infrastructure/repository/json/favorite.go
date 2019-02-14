@@ -1,4 +1,4 @@
-package dummy
+package json
 
 import (
 	"encoding/json"
@@ -8,24 +8,24 @@ import (
 	"github.com/tayusa/notugly_backend/internal/domain"
 )
 
-type dummyFavoriteRepository struct {
+type favoriteRepository struct {
 }
 
-func (f *dummyFavoriteRepository) Store(_ domain.Favorite) error {
+func (f *favoriteRepository) Store(_ domain.Favorite) error {
 	return nil
 }
 
-func (f *dummyFavoriteRepository) Delete(_ domain.Favorite) error {
+func (f *favoriteRepository) Delete(_ domain.Favorite) error {
 	return nil
 }
 
-func NewDummyFavoriteRepository() *dummyFavoriteRepository {
-	return &dummyFavoriteRepository{}
+func NewFavoriteRepository() *favoriteRepository {
+	return &favoriteRepository{}
 }
 
 func GetFavorites(method int) ([]domain.Favorite, error) {
 	bytes, err := ioutil.ReadFile(
-		filepath.Join("test/json/favorites", methods[method]+".json"))
+		filepath.Join(jsonPath, "favorites", methods[method]+".json"))
 	if err != nil {
 		return []domain.Favorite{}, err
 	}
