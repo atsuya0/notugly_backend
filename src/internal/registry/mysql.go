@@ -11,11 +11,12 @@ import (
 )
 
 type interactor struct {
-	db *sql.DB
+	db        *sql.DB
+	imagePath string
 }
 
-func NewInteractor(db *sql.DB) Iteractor {
-	return &interactor{db}
+func NewInteractor(db *sql.DB, imagePath string) Iteractor {
+	return &interactor{db, imagePath}
 }
 
 func (i *interactor) NewAppHandler() handler.AppHandler {
@@ -35,7 +36,7 @@ func (i *interactor) NewCoordinateHandler() handler.CoordinateHandler {
 	return handler.NewCoordinateHandler(
 		controller.NewCoordinateController(
 			service.NewCoordinateService(
-				"images",
+				i.imagePath,
 				mysql.NewCoordinateRepository(i.db),
 				presenter.NewCoordinatePresenter())))
 }

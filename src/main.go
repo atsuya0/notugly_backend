@@ -29,7 +29,7 @@ func main() {
 		}
 	}()
 
-	interactor := registry.NewInteractor(db)
+	interactor := registry.NewInteractor(db, "images")
 
 	handler := interactor.NewAppHandler()
 
