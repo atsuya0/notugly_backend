@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tayusa/notugly_backend/configs"
@@ -26,6 +27,7 @@ func NewDB() *sql.DB {
 
 	db.SetMaxOpenConns(100)
 	db.SetMaxIdleConns(100)
+	db.SetConnMaxLifetime(time.Second * 100)
 
 	return db
 }
