@@ -1,4 +1,4 @@
-package dummy
+package json
 
 import (
 	"encoding/json"
@@ -9,10 +9,10 @@ import (
 	"github.com/tayusa/notugly_backend/internal/domain"
 )
 
-type dummyUserRepository struct {
+type userRepository struct {
 }
 
-func (u *dummyUserRepository) FindById(id string) (domain.User, error) {
+func (u *userRepository) FindById(id string) (domain.User, error) {
 	users, err := GetUsers(GET)
 	if err != nil {
 		return domain.User{}, err
@@ -27,16 +27,16 @@ func (u *dummyUserRepository) FindById(id string) (domain.User, error) {
 	return domain.User{}, fmt.Errorf("err no rows")
 }
 
-func (u *dummyUserRepository) Store(_ domain.User) error {
+func (u *userRepository) Store(_ domain.User) error {
 	return nil
 }
 
-func (u *dummyUserRepository) Update(_ domain.User) error {
+func (u *userRepository) Update(_ domain.User) error {
 	return nil
 }
 
-func NewDummyUserRepository() *dummyUserRepository {
-	return &dummyUserRepository{}
+func NewUserRepository() *userRepository {
+	return &userRepository{}
 }
 
 func GetUsers(method int) ([]domain.User, error) {

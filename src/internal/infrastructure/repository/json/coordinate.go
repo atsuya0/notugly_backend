@@ -1,4 +1,4 @@
-package dummy
+package json
 
 import (
 	"encoding/json"
@@ -9,10 +9,10 @@ import (
 	"github.com/tayusa/notugly_backend/internal/domain"
 )
 
-type dummyCoordinateRepository struct {
+type coordinateRepository struct {
 }
 
-func (c *dummyCoordinateRepository) FindById(
+func (c *coordinateRepository) FindById(
 	id int) (domain.Coordinate, error) {
 
 	coordinates, err := GetCoordinates(GET)
@@ -29,7 +29,7 @@ func (c *dummyCoordinateRepository) FindById(
 	return domain.Coordinate{}, fmt.Errorf("err no rows")
 }
 
-func (c *dummyCoordinateRepository) GetAtRandom() (domain.Coordinate, error) {
+func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	coordinates, err := GetCoordinates(GET)
 	if err != nil {
 		return domain.Coordinate{}, err
@@ -42,7 +42,7 @@ func (c *dummyCoordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 	return domain.Coordinate{}, fmt.Errorf("err no rows")
 }
 
-func (c *dummyCoordinateRepository) FindFavoriteByCoordinateIdAndUserId(
+func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
 	id int, uid string) (domain.Favorite, error) {
 
 	favorites, err := GetFavorites(GET)
@@ -59,7 +59,7 @@ func (c *dummyCoordinateRepository) FindFavoriteByCoordinateIdAndUserId(
 	return domain.Favorite{}, fmt.Errorf("err no rows")
 }
 
-func (c *dummyCoordinateRepository) FindByUserId(
+func (c *coordinateRepository) FindByUserId(
 	userId string) ([]domain.Coordinate, error) {
 
 	coordinates, err := GetCoordinates(GET)
@@ -76,16 +76,16 @@ func (c *dummyCoordinateRepository) FindByUserId(
 	return output, nil
 }
 
-func (c *dummyCoordinateRepository) Store(_ domain.Coordinate) (int64, error) {
+func (c *coordinateRepository) Store(_ domain.Coordinate) (int64, error) {
 	return 0, nil
 }
 
-func (c *dummyCoordinateRepository) Delete(_ int) error {
+func (c *coordinateRepository) Delete(_ int) error {
 	return nil
 }
 
-func NewDummyCoordinateRepository() *dummyCoordinateRepository {
-	return &dummyCoordinateRepository{}
+func NewCoordinateRepository() *coordinateRepository {
+	return &coordinateRepository{}
 }
 
 func GetCoordinates(method int) ([]domain.Coordinate, error) {
