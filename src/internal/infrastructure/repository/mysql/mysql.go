@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tayusa/notugly_backend/configs"
@@ -20,7 +21,7 @@ func NewDB() *sql.DB {
 
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 	return db
