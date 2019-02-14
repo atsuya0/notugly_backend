@@ -35,5 +35,5 @@ func main() {
 
 	router := router.NewRouter(handler, middleware.Auth)
 
-	log.Fatalln(http.ListenAndServe(":"+config.Data.Backend.Port, router))
+	log.Fatalln(http.ListenAndServe(":"+configs.Data.Backend.Port, router))
 }
