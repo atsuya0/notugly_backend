@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	config "github.com/tayusa/notugly_backend/configs"
+	"github.com/tayusa/notugly_backend/configs"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/middleware"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/router"
 	repository "github.com/tayusa/notugly_backend/internal/infrastructure/repository/mysql"
@@ -20,7 +20,7 @@ func init() {
 }
 
 func main() {
-	config.LoadConfig(configPath)
+	configs.LoadConfig(configPath)
 
 	db := repository.NewDB()
 	defer func() {
