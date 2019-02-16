@@ -7,7 +7,7 @@ services:
       args:
         ROOT: /app
     container_name: 'app'
-    command: bash -c 'go build -o app && ./app'
+    command: make run
     environment:
       FIREBASE_AUTH_CREDENTIALS: './api/credentials.json'
       GO_PORT: '${GO_PORT}'
