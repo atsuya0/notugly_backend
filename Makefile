@@ -1,10 +1,11 @@
-cmd := docker-compose run app make
+run := docker-compose run
+make := $(run) app make
 
 .PHONY: build test test-short
 
 build:
-	@$(cmd) bin/app
+	@$(make) bin/app
 test:
-	@$(cmd) test
+	@$(make) test
 test-short:
-	@$(cmd) test-short
+	@$(make) test-short
