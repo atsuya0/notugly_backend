@@ -1,4 +1,4 @@
-run := docker-compose run
+run := docker-compose run --rm
 app := $(run) app
 db := $(run) db
 make := $(app) make
