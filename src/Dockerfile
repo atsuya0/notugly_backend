@@ -1,8 +1,5 @@
 FROM golang:latest
 
-RUN apt update \
-    && apt install git
-
 RUN go get golang.org/x/tools/cmd/goimports
 
 ARG ROOT
