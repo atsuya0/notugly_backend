@@ -3,7 +3,7 @@ app := $(run) app
 db := $(run) db
 make := $(app) make
 
-.PHONY: build test
+.PHONY: build test go-sh db-sh
 
 build:
 	@$(make) bin/app
