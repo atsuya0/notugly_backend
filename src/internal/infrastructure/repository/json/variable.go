@@ -3,7 +3,7 @@ package json
 const (
 	jsonPath = "test/json"
 
-	GET = iota
+	GET = iota + 1
 	POST
 )
 
