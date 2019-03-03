@@ -5,7 +5,7 @@ test := go test -v -cover -parallel 4
 run: bin/app
 	@bin/app
 bin/app: main.go format
-	@go build -o bin/app ./main.go
+	@GOOS=linux GOARCH=amd64 go build -o bin/app ./main.go
 test: main_test.go format
 	@$(test)
 test-short: main_test.go format
