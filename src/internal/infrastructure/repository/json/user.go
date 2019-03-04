@@ -1,6 +1,7 @@
 package json
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -12,7 +13,7 @@ import (
 type userRepository struct {
 }
 
-func (u *userRepository) FindById(id string) (domain.User, error) {
+func (u *userRepository) FindById(_ context.Context, id string) (domain.User, error) {
 	users, err := GetUsers(GET)
 	if err != nil {
 		return domain.User{}, err
@@ -27,11 +28,11 @@ func (u *userRepository) FindById(id string) (domain.User, error) {
 	return domain.User{}, fmt.Errorf("err no rows")
 }
 
-func (u *userRepository) Store(_ domain.User) error {
+func (u *userRepository) Store(_ context.Context, _ domain.User) error {
 	return nil
 }
 
-func (u *userRepository) Update(_ domain.User) error {
+func (u *userRepository) Update(_ context.Context, _ domain.User) error {
 	return nil
 }
 
