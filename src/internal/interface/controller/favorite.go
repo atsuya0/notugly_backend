@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 
@@ -13,29 +14,29 @@ type favoriteController struct {
 }
 
 type FavoriteController interface {
-	Create(string, io.ReadCloser) error
-	Delete(string, io.ReadCloser) error
+	Create(context.Context, string, io.ReadCloser) error
+	Delete(context.Context, string, io.ReadCloser) error
 }
 
-func (f *favoriteController) Create(uid string, body io.ReadCloser) error {
+func (f *favoriteController) Create(ctx context.Context, uid string, body io.ReadCloser) error {
 	favorite := domain.Favorite{UserId: uid}
 	if err := json.NewDecoder(body).Decode(&favorite); err != nil {
 		return err
 	}
 
-	if err := f.favoriteService.Create(favorite); err != nil {
+	if err := f.favoriteService.Create(ctx, favorite); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (f *favoriteController) Delete(uid string, body io.ReadCloser) error {
+func (f *favoriteController) Delete(ctx context.Context, uid string, body io.ReadCloser) error {
 	favorite := domain.Favorite{UserId: uid}
 	if err := json.NewDecoder(body).Decode(&favorite); err != nil {
 		return err
 	}
 
-	if err := f.favoriteService.Delete(favorite); err != nil {
+	if err := f.favoriteService.Delete(ctx, favorite); err != nil {
 		return err
 	}
 	return nil
