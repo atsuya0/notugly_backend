@@ -1,6 +1,7 @@
 package json
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"path/filepath"
@@ -11,11 +12,11 @@ import (
 type favoriteRepository struct {
 }
 
-func (f *favoriteRepository) Store(_ domain.Favorite) error {
+func (f *favoriteRepository) Store(_ context.Context, _ domain.Favorite) error {
 	return nil
 }
 
-func (f *favoriteRepository) Delete(_ domain.Favorite) error {
+func (f *favoriteRepository) Delete(_ context.Context, _ domain.Favorite) error {
 	return nil
 }
 
