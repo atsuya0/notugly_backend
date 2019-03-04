@@ -1,6 +1,7 @@
 package json
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -13,7 +14,7 @@ type coordinateRepository struct {
 }
 
 func (c *coordinateRepository) FindById(
-	id int) (domain.Coordinate, error) {
+	_ context.Context, id int) (domain.Coordinate, error) {
 
 	coordinates, err := GetCoordinates(GET)
 	if err != nil {
@@ -29,7 +30,7 @@ func (c *coordinateRepository) FindById(
 	return domain.Coordinate{}, fmt.Errorf("err no rows")
 }
 
-func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
+func (c *coordinateRepository) GetAtRandom(_ context.Context) (domain.Coordinate, error) {
 	coordinates, err := GetCoordinates(GET)
 	if err != nil {
 		return domain.Coordinate{}, err
@@ -43,7 +44,7 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 }
 
 func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
-	id int, uid string) (domain.Favorite, error) {
+	_ context.Context, id int, uid string) (domain.Favorite, error) {
 
 	favorites, err := GetFavorites(GET)
 	if err != nil {
@@ -60,7 +61,7 @@ func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
 }
 
 func (c *coordinateRepository) FindByUserId(
-	userId string) ([]domain.Coordinate, error) {
+	_ context.Context, userId string) ([]domain.Coordinate, error) {
 
 	coordinates, err := GetCoordinates(GET)
 	if err != nil {
@@ -76,11 +77,11 @@ func (c *coordinateRepository) FindByUserId(
 	return output, nil
 }
 
-func (c *coordinateRepository) Store(_ domain.Coordinate) (int64, error) {
+func (c *coordinateRepository) Store(_ context.Context, _ domain.Coordinate) (int64, error) {
 	return 0, nil
 }
 
-func (c *coordinateRepository) Delete(_ int) error {
+func (c *coordinateRepository) Delete(_ context.Context, _ int) error {
 	return nil
 }
 
