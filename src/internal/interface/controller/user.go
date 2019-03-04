@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 
@@ -13,38 +14,38 @@ type userController struct {
 }
 
 type UserController interface {
-	Get(string) ([]byte, error)
-	Create(string, io.ReadCloser) error
-	Update(string, io.ReadCloser) error
+	Get(context.Context, string) ([]byte, error)
+	Create(context.Context, string, io.ReadCloser) error
+	Update(context.Context, string, io.ReadCloser) error
 }
 
-func (u *userController) Get(uid string) ([]byte, error) {
-	user, err := u.userService.Get(uid)
+func (u *userController) Get(ctx context.Context, uid string) ([]byte, error) {
+	user, err := u.userService.Get(ctx, uid)
 	if err != nil {
 		return []byte{}, err
 	}
 	return user, nil
 }
 
-func (u *userController) Create(uid string, body io.ReadCloser) error {
+func (u *userController) Create(ctx context.Context, uid string, body io.ReadCloser) error {
 	user := domain.User{Id: uid}
 	if err := json.NewDecoder(body).Decode(&user); err != nil {
 		return err
 	}
 
-	if err := u.userService.Create(user); err != nil {
+	if err := u.userService.Create(ctx, user); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u *userController) Update(uid string, body io.ReadCloser) error {
+func (u *userController) Update(ctx context.Context, uid string, body io.ReadCloser) error {
 	user := domain.User{Id: uid}
 	if err := json.NewDecoder(body).Decode(&user); err != nil {
 		return err
 	}
 
-	if err := u.userService.Update(user); err != nil {
+	if err := u.userService.Update(ctx, user); err != nil {
 		return err
 	}
 	return nil
