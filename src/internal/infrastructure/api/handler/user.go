@@ -23,7 +23,7 @@ type UserHandler interface {
 func (u *userHandler) GetUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	user, err := u.UserController.Get(p.ByName("uid"))
+	user, err := u.UserController.Get(r.Context(), p.ByName("uid"))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -37,7 +37,7 @@ func (u *userHandler) GetUser(
 func (u *userHandler) PostUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if err := u.UserController.Create(
-		property.GetUserId(r.Context()), r.Body); err != nil {
+		r.Context(), property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -49,7 +49,7 @@ func (u *userHandler) PutUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := u.UserController.Update(
-		property.GetUserId(r.Context()), r.Body); err != nil {
+		r.Context(), property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

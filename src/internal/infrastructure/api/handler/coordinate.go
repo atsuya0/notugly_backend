@@ -25,7 +25,7 @@ type CoordinateHandler interface {
 func (c *coordinateHandler) GetCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	coordinate, err := c.CoordinateController.Get(p.ByName("coordinateId"))
+	coordinate, err := c.CoordinateController.Get(r.Context(), p.ByName("coordinateId"))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -40,7 +40,7 @@ func (c *coordinateHandler) GetCoordinateAtRandom(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	coordinate, err := c.CoordinateController.GetAtRandom(
-		property.GetUserId(r.Context()))
+		r.Context(), property.GetUserId(r.Context()))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -54,7 +54,8 @@ func (c *coordinateHandler) GetCoordinateAtRandom(
 func (c *coordinateHandler) GetCoordinates(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	coordinates, err := c.CoordinateController.GetByUserId(p.ByName("uid"))
+	coordinates, err := c.CoordinateController.GetByUserId(
+		r.Context(), p.ByName("uid"))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -68,7 +69,8 @@ func (c *coordinateHandler) GetCoordinates(
 func (c *coordinateHandler) PostCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	id, err := c.CoordinateController.Create(property.GetUserId(r.Context()), r.Body)
+	id, err := c.CoordinateController.Create(
+		r.Context(), property.GetUserId(r.Context()), r.Body)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -82,7 +84,7 @@ func (c *coordinateHandler) PostCoordinate(
 func (c *coordinateHandler) DeleteCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	if err := c.CoordinateController.Delete(r.Body); err != nil {
+	if err := c.CoordinateController.Delete(r.Context(), r.Body); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

@@ -23,7 +23,7 @@ func (f *favoriteHandler) PostFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := f.FavoriteController.Create(
-		property.GetUserId(r.Context()), r.Body); err != nil {
+		r.Context(), property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -36,7 +36,7 @@ func (f *favoriteHandler) DeleteFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := f.FavoriteController.Delete(
-		property.GetUserId(r.Context()), r.Body); err != nil {
+		r.Context(), property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
