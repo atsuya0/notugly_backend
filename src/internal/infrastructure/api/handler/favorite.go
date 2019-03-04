@@ -6,8 +6,8 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
+	"github.com/tayusa/notugly_backend/internal/infrastructure/api/property"
 	"github.com/tayusa/notugly_backend/internal/interface/controller"
-	"github.com/tayusa/notugly_backend/pkg/ctx"
 )
 
 type favoriteHandler struct {
@@ -23,7 +23,7 @@ func (f *favoriteHandler) PostFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := f.FavoriteController.Create(
-		ctx.GetUserId(r.Context()), r.Body); err != nil {
+		property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -36,7 +36,7 @@ func (f *favoriteHandler) DeleteFavorite(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := f.FavoriteController.Delete(
-		ctx.GetUserId(r.Context()), r.Body); err != nil {
+		property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

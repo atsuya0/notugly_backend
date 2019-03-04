@@ -6,8 +6,8 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
+	"github.com/tayusa/notugly_backend/internal/infrastructure/api/property"
 	"github.com/tayusa/notugly_backend/internal/interface/controller"
-	"github.com/tayusa/notugly_backend/pkg/ctx"
 )
 
 type coordinateHandler struct {
@@ -40,7 +40,7 @@ func (c *coordinateHandler) GetCoordinateAtRandom(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	coordinate, err := c.CoordinateController.GetAtRandom(
-		ctx.GetUserId(r.Context()))
+		property.GetUserId(r.Context()))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -68,7 +68,7 @@ func (c *coordinateHandler) GetCoordinates(
 func (c *coordinateHandler) PostCoordinate(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	id, err := c.CoordinateController.Create(ctx.GetUserId(r.Context()), r.Body)
+	id, err := c.CoordinateController.Create(property.GetUserId(r.Context()), r.Body)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

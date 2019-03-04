@@ -6,8 +6,8 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
+	"github.com/tayusa/notugly_backend/internal/infrastructure/api/property"
 	"github.com/tayusa/notugly_backend/internal/interface/controller"
-	"github.com/tayusa/notugly_backend/pkg/ctx"
 )
 
 type userHandler struct {
@@ -37,7 +37,7 @@ func (u *userHandler) GetUser(
 func (u *userHandler) PostUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if err := u.UserController.Create(
-		ctx.GetUserId(r.Context()), r.Body); err != nil {
+		property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -49,7 +49,7 @@ func (u *userHandler) PutUser(
 	w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := u.UserController.Update(
-		ctx.GetUserId(r.Context()), r.Body); err != nil {
+		property.GetUserId(r.Context()), r.Body); err != nil {
 
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
