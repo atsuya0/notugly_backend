@@ -1,11 +1,13 @@
 package repository
 
 import (
+	"context"
+
 	"github.com/tayusa/notugly_backend/internal/domain"
 )
 
 type UserRepository interface {
-	FindById(string) (domain.User, error)
-	Store(domain.User) error
-	Update(domain.User) error
+	FindById(context.Context, string) (domain.User, error)
+	Store(context.Context, domain.User) error
+	Update(context.Context, domain.User) error
 }
