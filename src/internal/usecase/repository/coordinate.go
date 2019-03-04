@@ -1,15 +1,17 @@
 package repository
 
 import (
+	"context"
+
 	"github.com/tayusa/notugly_backend/internal/domain"
 )
 
 type CoordinateRepository interface {
-	FindById(int) (domain.Coordinate, error)
-	GetAtRandom() (domain.Coordinate, error)
+	FindById(context.Context, int) (domain.Coordinate, error)
+	GetAtRandom(context.Context) (domain.Coordinate, error)
 	FindFavoriteByCoordinateIdAndUserId(
-		int, string) (domain.Favorite, error)
-	FindByUserId(string) ([]domain.Coordinate, error)
-	Store(domain.Coordinate) (int64, error)
-	Delete(int) error
+		context.Context, int, string) (domain.Favorite, error)
+	FindByUserId(context.Context, string) ([]domain.Coordinate, error)
+	Store(context.Context, domain.Coordinate) (int64, error)
+	Delete(context.Context, int) error
 }
