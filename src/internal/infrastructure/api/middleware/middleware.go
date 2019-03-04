@@ -8,7 +8,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 
 	"github.com/tayusa/notugly_backend/configs"
-	"github.com/tayusa/notugly_backend/pkg/ctx"
+	"github.com/tayusa/notugly_backend/internal/infrastructure/api/property"
 	"github.com/tayusa/notugly_backend/pkg/firebase"
 )
 
@@ -25,7 +25,7 @@ func Auth(next httprouter.Handle) httprouter.Handle {
 		next(
 			w,
 			r.WithContext(
-				ctx.SetUserId(r.Context(), token.UID)),
+				property.SetUserId(r.Context(), token.UID)),
 			p)
 	}
 }

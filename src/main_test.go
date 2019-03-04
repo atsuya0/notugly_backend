@@ -17,10 +17,10 @@ import (
 
 	"github.com/tayusa/notugly_backend/configs"
 	"github.com/tayusa/notugly_backend/internal/domain"
+	"github.com/tayusa/notugly_backend/internal/infrastructure/api/property"
 	"github.com/tayusa/notugly_backend/internal/infrastructure/api/router"
 	repository "github.com/tayusa/notugly_backend/internal/infrastructure/repository/json"
 	"github.com/tayusa/notugly_backend/internal/registry"
-	"github.com/tayusa/notugly_backend/pkg/ctx"
 )
 
 const (
@@ -37,7 +37,7 @@ func dummyAuth(next httprouter.Handle) httprouter.Handle {
 		next(
 			w,
 			r.WithContext(
-				ctx.SetUserId(r.Context(), dummyUserId)),
+				property.SetUserId(r.Context(), dummyUserId)),
 			p)
 	}
 }
