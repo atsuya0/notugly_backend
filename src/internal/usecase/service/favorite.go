@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+
 	"github.com/tayusa/notugly_backend/internal/domain"
 	"github.com/tayusa/notugly_backend/internal/usecase/repository"
 )
@@ -10,17 +12,17 @@ type favoriteService struct {
 }
 
 type FavoriteService interface {
-	Create(domain.Favorite) error
-	Delete(domain.Favorite) error
+	Create(context.Context, domain.Favorite) error
+	Delete(context.Context, domain.Favorite) error
 }
 
-func (f *favoriteService) Create(favorite domain.Favorite) (err error) {
-	err = f.FavoriteRepository.Store(favorite)
+func (f *favoriteService) Create(ctx context.Context, favorite domain.Favorite) (err error) {
+	err = f.FavoriteRepository.Store(ctx, favorite)
 	return
 }
 
-func (f *favoriteService) Delete(favorite domain.Favorite) (err error) {
-	err = f.FavoriteRepository.Delete(favorite)
+func (f *favoriteService) Delete(ctx context.Context, favorite domain.Favorite) (err error) {
+	err = f.FavoriteRepository.Delete(ctx, favorite)
 	return
 }
 
