@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"time"
@@ -13,12 +14,12 @@ type coordinateRepository struct {
 }
 
 func (c *coordinateRepository) FindById(
-	coordinateId int) (domain.Coordinate, error) {
+	ctx context.Context, coordinateId int) (domain.Coordinate, error) {
 
 	var coordinate domain.Coordinate
 	var createdAt time.Time
 
-	err := c.db.QueryRow(
+	err := c.db.QueryRowContext(ctx,
 		`SELECT
 			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
@@ -39,12 +40,14 @@ func (c *coordinateRepository) FindById(
 	return coordinate, nil
 }
 
-func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
+func (c *coordinateRepository) GetAtRandom(
+	ctx context.Context) (domain.Coordinate, error) {
+
 	var coordinate domain.Coordinate
 	var createdAt time.Time
 
 	// SELECT id ... RAND() ... AS rand -> SELECT * ... where id = rand.id
-	err := c.db.QueryRow(
+	err := c.db.QueryRowContext(ctx,
 		`SELECT
 			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
@@ -65,10 +68,10 @@ func (c *coordinateRepository) GetAtRandom() (domain.Coordinate, error) {
 }
 
 func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
-	coordinateId int, uid string) (domain.Favorite, error) {
+	ctx context.Context, coordinateId int, uid string) (domain.Favorite, error) {
 
 	var favorite domain.Favorite
-	err := c.db.QueryRow(
+	err := c.db.QueryRowContext(ctx,
 		`SELECT coordinate_id, user_id FROM favorites
 			WHERE coordinate_id = ? AND user_id = ?`,
 		coordinateId, uid).Scan(
@@ -82,9 +85,9 @@ func (c *coordinateRepository) FindFavoriteByCoordinateIdAndUserId(
 }
 
 func (c *coordinateRepository) FindByUserId(
-	uid string) ([]domain.Coordinate, error) {
+	ctx context.Context, uid string) ([]domain.Coordinate, error) {
 
-	rows, err := c.db.Query(
+	rows, err := c.db.QueryContext(ctx,
 		`SELECT
 			id, image_name, coordinates.user_id, created_at, COUNT(coordinate_id)
 			FROM coordinates LEFT OUTER JOIN favorites
@@ -122,9 +125,9 @@ func (c *coordinateRepository) FindByUserId(
 }
 
 func (c *coordinateRepository) Store(
-	coordinate domain.Coordinate) (int64, error) {
+	ctx context.Context, coordinate domain.Coordinate) (int64, error) {
 
-	result, err := c.db.Exec(
+	result, err := c.db.ExecContext(ctx,
 		`INSERT INTO coordinates(image_name, user_id, created_at)
 			VALUES(?, ?, ?)`,
 		coordinate.ImageName,
@@ -142,9 +145,11 @@ func (c *coordinateRepository) Store(
 	return lastInsertId, nil
 }
 
-func (c *coordinateRepository) Delete(coordinateId int) (err error) {
-	_, err = c.db.Exec(
-		"DELETE FROM coordinates WHERE id = ?", coordinateId)
+func (c *coordinateRepository) Delete(
+	ctx context.Context, coordinateId int) (err error) {
+
+	_, err = c.db.ExecContext(
+		ctx, "DELETE FROM coordinates WHERE id = ?", coordinateId)
 	return
 }
 
