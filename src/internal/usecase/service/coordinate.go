@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"os"
@@ -19,17 +20,19 @@ type coordinateService struct {
 }
 
 type CoordinateService interface {
-	Get(int) ([]byte, error)
-	GetAtRandom(string) ([]byte, error)
-	isFavorite(int, string) (bool, error)
-	GetByUserId(string) ([]byte, error)
+	Get(context.Context, int) ([]byte, error)
+	GetAtRandom(context.Context, string) ([]byte, error)
+	isFavorite(context.Context, int, string) (bool, error)
+	GetByUserId(context.Context, string) ([]byte, error)
 	saveImage(string, []byte) error
-	Create(domain.Coordinate, []byte) ([]byte, error)
-	Delete(int) error
+	Create(context.Context, domain.Coordinate, []byte) ([]byte, error)
+	Delete(context.Context, int) error
 }
 
-func (c *coordinateService) Get(coordinateId int) ([]byte, error) {
-	coordinate, err := c.CoordinateRepository.FindById(coordinateId)
+func (c *coordinateService) Get(
+	ctx context.Context, coordinateId int) ([]byte, error) {
+
+	coordinate, err := c.CoordinateRepository.FindById(ctx, coordinateId)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -42,8 +45,10 @@ func (c *coordinateService) Get(coordinateId int) ([]byte, error) {
 	return output, nil
 }
 
-func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
-	coordinate, err := c.CoordinateRepository.GetAtRandom()
+func (c *coordinateService) GetAtRandom(
+	ctx context.Context, uid string) ([]byte, error) {
+
+	coordinate, err := c.CoordinateRepository.GetAtRandom(ctx)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
@@ -53,7 +58,7 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 		}
 	}
 
-	isFavorited, err := c.isFavorite(coordinate.Id, uid)
+	isFavorited, err := c.isFavorite(ctx, coordinate.Id, uid)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -68,10 +73,10 @@ func (c *coordinateService) GetAtRandom(uid string) ([]byte, error) {
 }
 
 func (c *coordinateService) isFavorite(
-	coordinateId int, uid string) (bool, error) {
+	ctx context.Context, coordinateId int, uid string) (bool, error) {
 
 	_, err := c.CoordinateRepository.
-		FindFavoriteByCoordinateIdAndUserId(coordinateId, uid)
+		FindFavoriteByCoordinateIdAndUserId(ctx, coordinateId, uid)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
@@ -84,8 +89,10 @@ func (c *coordinateService) isFavorite(
 	return true, nil
 }
 
-func (c *coordinateService) GetByUserId(uid string) ([]byte, error) {
-	coordinates, err := c.CoordinateRepository.FindByUserId(uid)
+func (c *coordinateService) GetByUserId(
+	ctx context.Context, uid string) ([]byte, error) {
+
+	coordinates, err := c.CoordinateRepository.FindByUserId(ctx, uid)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
@@ -123,7 +130,8 @@ func (c *coordinateService) saveImage(fileName string, image []byte) error {
 }
 
 func (c *coordinateService) Create(
-	coordinate domain.Coordinate, image []byte) ([]byte, error) {
+	ctx context.Context, coordinate domain.Coordinate, image []byte) (
+	[]byte, error) {
 
 	fileName := random.RandomString(16)
 	err := c.saveImage(fileName, image)
@@ -132,7 +140,7 @@ func (c *coordinateService) Create(
 	}
 	coordinate.ImageName = fileName
 
-	id, err := c.CoordinateRepository.Store(coordinate)
+	id, err := c.CoordinateRepository.Store(ctx, coordinate)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -146,8 +154,10 @@ func (c *coordinateService) Create(
 	return output, nil
 }
 
-func (c *coordinateService) Delete(coordinateId int) (err error) {
-	err = c.CoordinateRepository.Delete(coordinateId)
+func (c *coordinateService) Delete(
+	ctx context.Context, coordinateId int) (err error) {
+
+	err = c.CoordinateRepository.Delete(ctx, coordinateId)
 	return
 }
 
