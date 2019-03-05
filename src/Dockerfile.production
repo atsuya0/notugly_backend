@@ -1,8 +1,0 @@
-FROM golang:latest AS build
-COPY ./ /app
-RUN go build -o app /app
-CMD /app/app
-
-FROM golang:alpine AS run
-COPY --from=build /app/app /usr/local/bin/app
-CMD /usr/local/bin/app
