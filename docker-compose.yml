@@ -11,28 +11,28 @@ services:
     command: make run
     environment:
       FIREBASE_AUTH_CREDENTIALS: './api/credentials.json'
-      GO_PORT: '${GO_PORT}'
-      MYSQL_USER: '${MYSQL_USER}'
-      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
-      MYSQL_HOST: '${MYSQL_HOST}'
-      MYSQL_PORT: '${MYSQL_PORT}'
+      GO_PORT: '${GO_PORT:-9000}'
+      MYSQL_USER: '${MYSQL_USER:-test}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD:-test}'
+      MYSQL_HOST: '${MYSQL_HOST:-db}'
+      MYSQL_PORT: '${MYSQL_PORT:-3306}'
     volumes:
       - ./src:/app
     ports:
-      - '${GO_PORT}:${GO_PORT}'
+      - '${GO_PORT:-9000}:${GO_PORT:-9000}'
   db:
     image: mariadb:latest
-    container_name: '${MYSQL_HOST}'
+    container_name: '${MYSQL_HOST:-db}'
     command: mysqld --character-set-server=utf8mb4
     environment:
-      MYSQL_USER: '${MYSQL_USER}'
-      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
-      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_USER: '${MYSQL_USER:-test}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD:-test}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD:-root}'
     volumes:
       - db-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
     expose:
-      - '${MYSQL_PORT}'
+      - '${MYSQL_PORT:-3306}'
 
 volumes:
   db-data:
