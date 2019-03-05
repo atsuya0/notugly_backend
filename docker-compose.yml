@@ -1,9 +1,10 @@
-version: '3'
+version: '3.7'
 services:
   app:
     build:
       context: ./src
       dockerfile: Dockerfile
+      target: develop
       args:
         ROOT: /app
     container_name: 'app'
